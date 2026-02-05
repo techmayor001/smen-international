@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMEN International - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc143c;
+            --primary-gold: #ffd700;
+            --primary-orange: #ff8c00;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --border-color: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #666666;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff4444;
+            --gradient-primary: linear-gradient(135deg, #dc143c, #ff8c00);
+            --gradient-gold: linear-gradient(135deg, #ffd700, #ff8c00);
+            --shadow-glow: 0 0 40px rgba(220, 20, 60, 0.15);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(220, 20, 60, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+                var(--dark-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: var(--gradient-primary);
+            opacity: 0.05;
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.05; }
+            50% { transform: scale(1.2); opacity: 0.08; }
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px var(--border-color),
+                var(--shadow-glow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-logo p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .dashboard.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 1.5rem;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sidebar-logo p {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .nav-section {
+            padding: 0 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.9rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            margin: 2rem 1rem 0;
+            padding: 0.9rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            width: calc(100% - 2rem);
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 68, 68, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            width: calc(100% - 280px);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gradient-primary);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: rgba(220, 20, 60, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(220, 20, 60, 0.1);
+            border-color: var(--primary-red);
+            color: var(--text-primary);
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: rgba(220, 20, 60, 0.05);
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(220, 20, 60, 0.05);
+        }
+
+        .badge {
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 170, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background: rgba(220, 20, 60, 0.1);
+            color: var(--primary-red);
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(220, 20, 60, 0.02);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-red);
+            background: rgba(220, 20, 60, 0.05);
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--primary-red);
+            background: rgba(220, 20, 60, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .upload-text {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Media Grid */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .media-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: var(--dark-bg);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05);
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .media-item:hover .media-overlay {
+            opacity: 1;
+        }
+
+        .media-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .media-action-btn {
+            padding: 0.5rem;
+            background: rgba(220, 20, 60, 0.8);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .media-action-btn:hover {
+            background: var(--primary-red);
+        }
+
+        /* Form Styles */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-field label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            padding: 0.9rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 68, 68, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Applicant Profile */
+        .applicant-profile {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .applicant-avatar {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        .applicant-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .applicant-meta {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .applicant-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        /* Search and Filters */
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-select {
+            padding: 0.9rem 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .applicant-profile {
+                grid-template-columns: 1fr;
+            }
+
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 0.4s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-logo">
+                <h1>SMEN ADMIN</h1>
+                <p>Dashboard Control</p>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="admin@smen.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboardPage">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <h2>SMEN</h2>
+                <p>ADMIN DASHBOARD</p>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <div class="nav-item active" onclick="showSection('overview')">
+                    <span class="nav-icon">📊</span>
+                    <span>Overview</span>
+                </div>
+                <div class="nav-item" onclick="showSection('analytics')">
+                    <span class="nav-icon">📈</span>
+                    <span>Analytics</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Content</div>
+                <div class="nav-item" onclick="showSection('media')">
+                    <span class="nav-icon">🖼️</span>
+                    <span>Media Library</span>
+                </div>
+                <div class="nav-item" onclick="showSection('projects')">
+                    <span class="nav-icon">🏗️</span>
+                    <span>Projects</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Applications</div>
+                <div class="nav-item" onclick="showSection('applicants')">
+                    <span class="nav-icon">👥</span>
+                    <span>Applicants</span>
+                </div>
+                <div class="nav-item" onclick="showSection('applications')">
+                    <span class="nav-icon">📋</span>
+                    <span>Applications</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Settings</div>
+                <div class="nav-item" onclick="showSection('settings')">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Settings</span>
+                </div>
+            </div>
+
+            <button class="logout-btn" onclick="handleLogout()">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1>Dashboard Overview</h1>
+                <div class="header-actions">
+                    <div class="admin-profile">
+                        <div class="admin-avatar">A</div>
+                        <div>
+                            <div style="font-weight: 600;">Admin User</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">Super Admin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overview Section -->
+            <div class="content-section active" id="overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Total Applications</div>
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-change">+12.5% from last month</div>
+                            </div>
+                            <div class="stat-icon">📝</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Pending Review</div>
+                                <div class="stat-value">89</div>
+                                <div class="stat-change">-5.2% from last month</div>
+                            </div>
+                            <div class="stat-icon">⏳</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Active Projects</div>
+                                <div class="stat-value">24</div>
+                                <div class="stat-change">+3 new this month</div>
+                            </div>
+                            <div class="stat-icon">🏗️</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <div class="stat-title">Media Assets</div>
+                                <div class="stat-value">2,458</div>
+                                <div class="stat-change">+156 this month</div>
+                            </div>
+                            <div class="stat-icon">🖼️</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Applications</h2>
+                        <button class="btn btn-secondary" onclick="showSection('applicants')">View All</button>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Position</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentApplications">
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-weight: 700;">JD</div>
+                                        <div>
+                                            <div style="font-weight: 600;">John Doe</div>
+                                            <div style="font-size: 0.85rem; color: var(--text-muted);">john@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Offshore Engineer</td>
+                                <td>Feb 4, 2026</td>
+                                <td><span class="badge badge-warning">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="viewApplicant('JD')">View</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-gold); display: flex; align-items: center; justify-content: center; font-weight: 700;">SM</div>
+                                        <div>
+                                            <div style="font-weight: 600;">Sarah Miller</div>
+                                            <div style="font-size: 0.85rem; color: var(--text-muted);">sarah@email.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Project Manager</td>
+                                <td>Feb 3, 2026</td>
+                                <td><span class="badge badge-success">Approved</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="viewApplicant('SM')">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="content-section" id="analytics">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Analytics Dashboard</h2>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Detailed analytics and reporting coming soon. Track application trends, conversion rates, and more.</p>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">Application Conversion Rate</div>
+                            <div class="stat-value">24.8%</div>
+                            <div class="stat-change">+2.3% improvement</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Average Review Time</div>
+                            <div class="stat-value">3.2 days</div>
+                            <div class="stat-change">-0.8 days faster</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Library Section -->
+            <div class="content-section" id="media">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Media Library</h2>
+                        <button class="btn btn-primary" onclick="openUploadModal('media')">
+                            <span>⬆️</span> Upload Media
+                        </button>
+                    </div>
+
+                    <div class="search-filters">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search media..." onkeyup="filterMedia(this.value)">
+                        </div>
+                        <select class="filter-select" onchange="filterMediaByType(this.value)">
+                            <option value="">All Types</option>
+                            <option value="image">Images</option>
+                            <option value="video">Videos</option>
+                            <option value="document">Documents</option>
+                        </select>
+                    </div>
+
+                    <div class="media-grid" id="mediaGrid">
+                        <!-- Media items will be dynamically added here -->
+                        <div class="media-item">
+                            <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=400&h=400&fit=crop" alt="Sample">
+                            <div class="media-overlay">
+                                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;">team-photo.jpg</div>
+                                <div class="media-actions">
+                                    <button class="media-action-btn" title="View">👁️</button>
+                                    <button class="media-action-btn" title="Download">⬇️</button>
+                                    <button class="media-action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=400&fit=crop" alt="Sample">
+                            <div class="media-overlay">
+                                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;">project-1.jpg</div>
+                                <div class="media-actions">
+                                    <button class="media-action-btn" title="View">👁️</button>
+                                    <button class="media-action-btn" title="Download">⬇️</button>
+                                    <button class="media-action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="content-section" id="projects">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Project Management</h2>
+                        <button class="btn btn-primary" onclick="openProjectModal()">
+                            <span>➕</span> Add Project
+                        </button>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsList">
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 600;">Luxury Residential Complex</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted);">200 premium apartments</div>
+                                </td>
+                                <td><span class="badge badge-info">Real Estate</span></td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>Jan 15, 2026</td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="editProject(1)">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="font-weight: 600;">Tech Hub Commercial Center</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-muted);">Modern office spaces</div>
+                                </td>
+                                <td><span class="badge badge-info">Contracting</span></td>
+                                <td><span class="badge badge-warning">In Progress</span></td>
+                                <td>Dec 10, 2025</td>
+                                <td>
+                                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="editProject(2)">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Applicants Section -->
+            <div class="content-section" id="applicants">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Applicant Management</h2>
+                        <button class="btn btn-primary" onclick="exportApplicants()">
+                            <span>📥</span> Export Data
+                        </button>
+                    </div>
+
+                    <div class="search-filters">
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search applicants..." onkeyup="filterApplicants(this.value)">
+                        </div>
+                        <select class="filter-select" onchange="filterByStatus(this.value)">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="interview">Interview</option>
+                        </select>
+                        <select class="filter-select" onchange="filterByPosition(this.value)">
+                            <option value="">All Positions</option>
+                            <option value="engineer">Engineer</option>
+                            <option value="manager">Manager</option>
+                            <option value="technician">Technician</option>
+                        </select>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Position</th>
+                                <th>Experience</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicantsList">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div class="content-section" id="applications">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Application Tracking</h2>
+                        <div style="display: flex; gap: 1rem;">
+                            <button class="btn btn-secondary" onclick="filterApplications('all')">All</button>
+                            <button class="btn btn-secondary" onclick="filterApplications('pending')">Pending</button>
+                            <button class="btn btn-secondary" onclick="filterApplications('reviewed')">Reviewed</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom: 2rem;">
+                        <div class="stat-card">
+                            <div class="stat-title">Total Applications</div>
+                            <div class="stat-value">1,247</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">This Week</div>
+                            <div class="stat-value">42</div>
+                            <div class="stat-change">+15% from last week</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Approval Rate</div>
+                            <div class="stat-value">68%</div>
+                            <div class="stat-change">+5% improvement</div>
+                        </div>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Application ID</th>
+                                <th>Applicant</th>
+                                <th>Position</th>
+                                <th>Submitted</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsList">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="content-section" id="settings">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2 class="section-title">Settings</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Site Name</label>
+                            <input type="text" value="SMEN International">
+                        </div>
+                        <div class="form-field">
+                            <label>Admin Email</label>
+                            <input type="email" value="admin@smen.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label>Application Auto-Response</label>
+                            <select>
+                                <option>Enabled</option>
+                                <option>Disabled</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>Notification Frequency</label>
+                            <select>
+                                <option>Immediate</option>
+                                <option>Daily Digest</option>
+                                <option>Weekly Summary</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Save Settings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Upload Media</h2>
+                <button class="modal-close" onclick="closeModal('uploadModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Click to upload or drag and drop</div>
+                    <div class="upload-hint">PNG, JPG, GIF, MP4 up to 50MB</div>
+                    <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display: none;" onchange="handleFileSelect(event)">
+                </div>
+                <div id="uploadPreview" style="margin-top: 1.5rem;"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('uploadModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="uploadFiles()">Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Project</h2>
+                <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Project Name</label>
+                        <input type="text" placeholder="Enter project name">
+                    </div>
+                    <div class="form-field">
+                        <label>Category</label>
+                        <select>
+                            <option>Real Estate</option>
+                            <option>Contracting</option>
+                            <option>Agriculture</option>
+                            <option>Logistics</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Description</label>
+                    <textarea rows="4" placeholder="Project description"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label>Status</label>
+                        <select>
+                            <option>Planned</option>
+                            <option>In Progress</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label>Location</label>
+                        <input type="text" placeholder="Project location">
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label>Project Image</label>
+                    <input type="file" accept="image/*">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProject()">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Applicant Detail Modal -->
+    <div class="modal-overlay" id="applicantModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Applicant Details</h2>
+                <button class="modal-close" onclick="closeModal('applicantModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="applicant-profile">
+                    <div class="applicant-avatar" id="applicantAvatar">JD</div>
+                    <div class="applicant-info">
+                        <h3 id="applicantName">John Doe</h3>
+                        <div class="applicant-meta">
+                            <div>📧 john@email.com</div>
+                            <div>📞 +234 123 456 7890</div>
+                            <div>📍 Port Harcourt, Nigeria</div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="badge badge-info">5+ years experience</span>
+                            <span class="badge badge-success">Offshore Certified</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem;">Application Details</h4>
+                    <div style="display: grid; gap: 1rem;">
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">Position Applied</div>
+                            <div style="font-weight: 600;">Offshore Engineer</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">Date Applied</div>
+                            <div>February 4, 2026</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-muted); font-size: 0.85rem;">Resume</div>
+                            <button class="btn btn-secondary" style="padding: 0.5rem 1rem; margin-top: 0.5rem;">
+                                📄 Download Resume
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" style="background: rgba(255, 68, 68, 0.1); border-color: var(--danger); color: var(--danger);">
+                    ❌ Reject
+                </button>
+                <button class="btn btn-primary">
+                    ✅ Approve
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Authentication
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simple validation (replace with real authentication)
+            if (email && password) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboardPage').classList.add('active');
+                loadDashboardData();
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                document.getElementById('dashboardPage').classList.remove('active');
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+
+            // Update content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+
+            // Update header title
+            const titles = {
+                'overview': 'Dashboard Overview',
+                'analytics': 'Analytics',
+                'media': 'Media Library',
+                'projects': 'Project Management',
+                'applicants': 'Applicant Management',
+                'applications': 'Application Tracking',
+                'settings': 'Settings'
+            };
+            document.querySelector('.header h1').textContent = titles[sectionId];
+        }
+
+        // Modal Functions
+        function openUploadModal(type) {
+            document.getElementById('uploadModal').classList.add('active');
+        }
+
+        function openProjectModal() {
+            document.getElementById('projectModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function viewApplicant(id) {
+            document.getElementById('applicantModal').classList.add('active');
+        }
+
+        // File Upload
+        const uploadZone = document.getElementById('uploadZone');
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            const preview = document.getElementById('uploadPreview');
+            preview.innerHTML = '';
+            
+            Array.from(files).forEach(file => {
+                const div = document.createElement('div');
+                div.style.cssText = 'display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--dark-bg); border-radius: 8px; margin-bottom: 0.5rem;';
+                div.innerHTML = `
+                    <div style="font-size: 2rem;">📄</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">${file.name}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">${(file.size / 1024).toFixed(2)} KB</div>
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background: var(--danger); border: none; color: white; padding: 0.5rem; border-radius: 4px; cursor: pointer;">✕</button>
+                `;
+                preview.appendChild(div);
+            });
+        }
+
+        function uploadFiles() {
+            // Simulate upload
+            alert('Files uploaded successfully!');
+            closeModal('uploadModal');
+            document.getElementById('uploadPreview').innerHTML = '';
+        }
+
+        function saveProject() {
+            alert('Project saved successfully!');
+            closeModal('projectModal');
+        }
+
+        // Filter Functions
+        function filterMedia(query) {
+            console.log('Filtering media:', query);
+        }
+
+        function filterMediaByType(type) {
+            console.log('Filter by type:', type);
+        }
+
+        function filterApplicants(query) {
+            console.log('Filtering applicants:', query);
+        }
+
+        function filterByStatus(status) {
+            console.log('Filter by status:', status);
+        }
+
+        function filterByPosition(position) {
+            console.log('Filter by position:', position);
+        }
+
+        function filterApplications(filter) {
+            console.log('Filter applications:', filter);
+        }
+
+        function exportApplicants() {
+            alert('Exporting applicant data...');
+        }
+
+        function editProject(id) {
+            console.log('Edit project:', id);
+            openProjectModal();
+        }
+
+        // Load Dashboard Data
+        function loadDashboardData() {
+            // Simulate loading applicants
+            const applicantsList = document.getElementById('applicantsList');
+            const sampleApplicants = [
+                {name: 'John Doe', email: 'john@email.com', position: 'Offshore Engineer', experience: '5 years', date: 'Feb 4, 2026', status: 'pending'},
+                {name: 'Sarah Miller', email: 'sarah@email.com', position: 'Project Manager', experience: '8 years', date: 'Feb 3, 2026', status: 'approved'},
+                {name: 'Mike Johnson', email: 'mike@email.com', position: 'Technician', experience: '3 years', date: 'Feb 2, 2026', status: 'interview'},
+                {name: 'Emily Davis', email: 'emily@email.com', position: 'Site Engineer', experience: '6 years', date: 'Feb 1, 2026', status: 'pending'},
+            ];
+
+            applicantsList.innerHTML = sampleApplicants.map(app => `
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.8rem;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                ${app.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">${app.name}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">${app.email}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${app.position}</td>
+                    <td>${app.experience}</td>
+                    <td>${app.date}</td>
+                    <td>
+                        <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'pending' ? 'warning' : 'info'}">
+                            ${app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="viewApplicant('${app.name}')">View</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Load applications
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = sampleApplicants.map((app, i) => `
+                <tr>
+                    <td>#APP${1000 + i}</td>
+                    <td>
+                        <div style="font-weight: 600;">${app.name}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">${app.email}</div>
+                    </td>
+                    <td>${app.position}</td>
+                    <td>${app.date}</td>
+                    <td>
+                        <span class="badge badge-${app.status === 'approved' ? 'success' : app.status === 'pending' ? 'warning' : 'info'}">
+                            ${app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 0.5rem 1rem;" onclick="viewApplicant('${app.name}')">Review</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

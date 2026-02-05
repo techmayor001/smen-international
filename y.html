@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMEN International - The Largest Business Expert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8); 
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.animated {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-slide-left {
+            opacity: 0;
+        }
+
+        .animate-slide-left.animated {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .animate-slide-right {
+            opacity: 0;
+        }
+
+        .animate-slide-right.animated {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        .animate-scale {
+            opacity: 0;
+        }
+
+        .animate-scale.animated {
+            animation: scaleIn 0.6s ease forwards;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .top-bar a:hover {
+            color: #ffd700;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            min-width: 180px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            z-index: 1002;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .language-selector:hover .language-dropdown,
+        .language-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown a {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .language-dropdown a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.3rem;
+        }
+
+        .language-dropdown a.active {
+            background: rgba(220, 20, 60, 0.1);
+            color: #dc143c;
+            font-weight: 600;
+        }
+
+        .signup-btn {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Main Navigation */
+        .topnav {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc143c, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .nav-links > li > a:hover {
+            color: #dc143c;
+            background: rgba(220, 20, 60, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links > li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links > li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.5rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 120px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-item {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-link:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            transform: translateX(5px);
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 500px;
+        }
+
+        .mobile-dropdown a {
+            display: block;
+            padding: 0.8rem 1rem 0.8rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-dropdown a:hover {
+            color: #dc143c;
+            padding-left: 2.5rem;
+        }
+
+        /* Mobile Language and Media Section */
+        .mobile-top-section {
+            display: none;
+            padding: 1.5rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-top-section h3 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .mobile-action-btn {
+            padding: 0.8rem 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mobile-action-btn:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            border-color: #dc143c;
+            color: #dc143c;
+        }
+
+        .mobile-language-selector {
+            position: relative;
+        }
+
+        .mobile-language-list {
+            display: none;
+            margin-top: 0.5rem;
+            background: #fff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .mobile-language-list.active {
+            display: block;
+        }
+
+        .mobile-language-list a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-language-list a:hover {
+            background: rgba(220, 20, 60, 0.1);
+            color: #dc143c;
+        }
+
+        /* Hero Slider */
+        .hero-slider {
+            position: relative;
+            height: 90vh;
+            margin-top: 120px;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2rem, 6vw, 5rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-content .tagline {
+            font-size: clamp(1rem, 3vw, 2rem);
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .hero-content p {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(220, 20, 60, 0.5);
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-dot.active {
+            background: #dc143c;
+            transform: scale(1.3);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            color: #333;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 5%;
+            background: #fff;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-text p {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Services Grid - 3x6 */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .service-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.3), rgba(255, 140, 0, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .service-card:hover .service-image::before {
+            opacity: 1;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .service-content p {
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 5%;
+            background: #f8f8f8;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-info h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .project-info p {
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-status {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Partner With Us Section */
+        .investor-cta {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            text-align: center;
+            color: #fff;
+        }
+
+        .investor-cta h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .investor-cta p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+        }
+
+        .investor-btn {
+            padding: 1rem 2.5rem;
+            background: #fff;
+            color: #dc143c;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .investor-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #dc143c;
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .modal-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #dc143c;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.3rem;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .whatsapp-group {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
+        }
+
+        .success-overlay {
+            display: none;
+        }
+
+        .success-overlay.active {
+            display: flex;
+        }
+
+        .success-content {
+            text-align: center;
+            padding: 3rem 2.5rem;
+        }
+
+        .success-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        /* Loading Indicator */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Google Translate Widget Override */
+        #google_translate_element {
+            display: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .top-bar-left span {
+                display: none;
+            }
+
+            .mobile-top-section {
+                display: block;
+            }
+
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0.5rem 3%;
+                font-size: 0.8rem;
+            }
+
+            .top-bar-left,
+            .top-bar-right {
+                gap: 0.8rem;
+            }
+
+            .top-bar-left a span {
+                display: none;
+            }
+
+            .signup-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.8rem;
+            }
+
+            .language-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .topnav {
+                padding: 0 3%;
+                height: 70px;
+                top: 36px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .hero-slider {
+                height: 70vh;
+                margin-top: 106px;
+            }
+
+            .section {
+                padding: 4rem 4%;
+            }
+
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-image,
+            .project-image {
+                height: 200px;
+            }
+
+            .mobile-menu {
+                top: 106px;
+                height: calc(100vh - 106px);
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.4rem 2%;
+            }
+
+            .top-bar-right {
+                gap: 0.5rem;
+            }
+
+            .section {
+                padding: 3rem 3%;
+            }
+
+            .service-content,
+            .project-info {
+                padding: 1.2rem;
+            }
+
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .cta-btn {
+                padding: 0.9rem 2rem;
+            }
+
+            .whatsapp-group {
+                grid-template-columns: 80px 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator">Translating...</div>
+
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#media">
+                <span>📰</span>
+                <span>Media</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageDropdown()">
+                    <span>🌐</span>
+                    <span id="currentLang">English</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="#" onclick="translatePage('en', 'English')" class="active">English</a>
+                    <a href="#" onclick="translatePage('es', 'Español')">Español</a>
+                    <a href="#" onclick="translatePage('fr', 'Français')">Français</a>
+                    <a href="#" onclick="translatePage('de', 'Deutsch')">Deutsch</a>
+                    <a href="#" onclick="translatePage('zh-CN', '中文')">中文 (Chinese)</a>
+                    <a href="#" onclick="translatePage('ar', 'العربية')">العربية (Arabic)</a>
+                    <a href="#" onclick="translatePage('pt', 'Português')">Português</a>
+                    <a href="#" onclick="translatePage('ru', 'Русский')">Русский (Russian)</a>
+                    <a href="#" onclick="translatePage('ja', '日本語')">日本語 (Japanese)</a>
+                    <a href="#" onclick="translatePage('ko', '한국어')">한국어 (Korean)</a>
+                    <a href="#" onclick="translatePage('it', 'Italiano')">Italiano</a>
+                    <a href="#" onclick="translatePage('hi', 'हिन्दी')">हिन्दी (Hindi)</a>
+                    <a href="#" onclick="translatePage('tr', 'Türkçe')">Türkçe (Turkish)</a>
+                    <a href="#" onclick="translatePage('pl', 'Polski')">Polski (Polish)</a>
+                    <a href="#" onclick="translatePage('nl', 'Nederlands')">Nederlands (Dutch)</a>
+                </div>
+            </div>
+            <a href="#signup" class="signup-btn">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="topnav">
+        <div class="logo">SMEN</div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <!-- <li><a href="about.html">About Us</a></li> -->
+            <li>
+                <a href="#about">About <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#vision">Vision</a></li>
+                    <li><a href="#mission">Mission</a></li>
+                    <li><a href="#responsibility">Responsibility</a></li>
+                    <li><a href="#core-values">Core Values</a></li>
+                    <li><a href="#team">Leadership Team</a></li>
+            </ul>
+            </li>
+            <li>
+                <a href="#services">Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#manpower">Manpower Supply</a></li>
+                    <li><a href="#contracting">Contracting & Services</a></li>
+                    <li><a href="#logistics">Procurement & Logistics</a></li>
+                    <li><a href="#finance">Finance</a></li>
+                    <li><a href="#realestate">Real Estate & Hospitality</a></li>
+                    <li><a href="#agriculture">Agriculture</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#manpower-services">Manpower Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#offshore">Offshore Personnel</a></li>
+                    <li><a href="#onshore">Onshore Personnel</a></li>
+                    <li><a href="#technical">Technical Staff</a></li>
+                </ul>
+            </li>
+            <li><a href="#projects">Projects</a></li>
+            <li>
+                <a href="#csr">CSR <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#community">Community Development</a></li>
+                    <li><a href="#education">Education Initiatives</a></li>
+                    <li><a href="#environment">Environmental Programs</a></li>
+                </ul>
+            </li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <!-- Mobile Top Section -->
+        <div class="mobile-top-section">
+            <h3>Quick Access</h3>
+            <div class="mobile-actions">
+                <a href="#media" class="mobile-action-btn">
+                    <span>📰</span>
+                    <span>Media</span>
+                </a>
+                <div class="mobile-language-selector">
+                    <button class="mobile-action-btn" onclick="toggleMobileLanguage()">
+                        <span>🌐</span>
+                        <span id="mobileLang">Language: English</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mobile-language-list" id="mobileLanguageList">
+                        <a href="#" onclick="translatePage('en', 'English')">English</a>
+                        <a href="#" onclick="translatePage('es', 'Español')">Español</a>
+                        <a href="#" onclick="translatePage('fr', 'Français')">Français</a>
+                        <a href="#" onclick="translatePage('de', 'Deutsch')">Deutsch</a>
+                        <a href="#" onclick="translatePage('zh-CN', '中文')">中文 (Chinese)</a>
+                        <a href="#" onclick="translatePage('ar', 'العربية')">العربية (Arabic)</a>
+                        <a href="#" onclick="translatePage('pt', 'Português')">Português</a>
+                        <a href="#" onclick="translatePage('ru', 'Русский')">Русский (Russian)</a>
+                        <a href="#" onclick="translatePage('ja', '日本語')">日本語 (Japanese)</a>
+                        <a href="#" onclick="translatePage('ko', '한국어')">한국어 (Korean)</a>
+                        <a href="#" onclick="translatePage('it', 'Italiano')">Italiano</a>
+                        <a href="#" onclick="translatePage('hi', 'हिन्दी')">हिन्दी (Hindi)</a>
+                        <a href="#" onclick="translatePage('tr', 'Türkçe')">Türkçe (Turkish)</a>
+                        <a href="#" onclick="translatePage('pl', 'Polski')">Polski (Polish)</a>
+                        <a href="#" onclick="translatePage('nl', 'Nederlands')">Nederlands (Dutch)</a>
+                    </div>
+                </div>
+                <a href="#signup" class="mobile-action-btn">
+                    <span>✍️</span>
+                    <span>Sign Up</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Menu Items -->
+        <div class="mobile-menu-item">
+            <a href="#home" class="mobile-menu-link">Home</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="about.html" class="mobile-menu-link">About Us</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#services" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'services-dropdown')">
+                Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="services-dropdown">
+                <a href="#manpower">Manpower Supply</a>
+                <a href="#contracting">Contracting & Services</a>
+                <a href="#logistics">Procurement & Logistics</a>
+                <a href="#finance">Finance</a>
+                <a href="#realestate">Real Estate & Hospitality</a>
+                <a href="#agriculture">Agriculture</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#manpower-services" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'manpower-dropdown')">
+                Manpower Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="manpower-dropdown">
+                <a href="#offshore">Offshore Personnel</a>
+                <a href="#onshore">Onshore Personnel</a>
+                <a href="#technical">Technical Staff</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#projects" class="mobile-menu-link">Projects</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#csr" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'csr-dropdown')">
+                CSR <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="csr-dropdown">
+                <a href="#community">Community Development</a>
+                <a href="#education">Education Initiatives</a>
+                <a href="#environment">Environmental Programs</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#careers" class="mobile-menu-link">Careers</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#contact" class="mobile-menu-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Slider -->
+    <div class="hero-slider" id="home">
+        <div class="hero-slide active">
+            <img src="slide1.jpeg" alt="Business" class="hero-bg">
+            <div class="hero-content">
+                <h1>SMEN INTERNATIONAL</h1>
+                <div class="tagline">The Largest Business Expert</div>
+                <p>Bringing the best to the world through innovative solutions across multiple sectors</p>
+                <a href="#services" class="cta-btn">Explore Our Services</a>
+            </div>
+        </div>
+        <div class="hero-slide">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&h=900&fit=crop" alt="Construction" class="hero-bg">
+            <div class="hero-content">
+                <h1>WORLD-CLASS SERVICES</h1>
+                <div class="tagline">Excellence in Every Sector</div>
+                <p>From manpower supply to real estate, we deliver exceptional value and lasting partnerships</p>
+                <a href="#about" class="cta-btn">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-slide">
+            <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=1600&h=900&fit=crop" alt="Team" class="hero-bg">
+            <div class="hero-content">
+                <h1>GLOBAL PRESENCE</h1>
+                <div class="tagline">Building the Future Together</div>
+                <p>With offices across Nigeria and Ghana, we're expanding our reach to serve the world</p>
+                <a href="#contact" class="cta-btn">Partner With Us</a>
+            </div>
+        </div>
+        <div class="slider-dots">
+            <div class="slider-dot active" onclick="goToSlide(0)"></div>
+            <div class="slider-dot" onclick="goToSlide(1)"></div>
+            <div class="slider-dot" onclick="goToSlide(2)"></div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about animate-on-scroll" id="about">
+        <h2 class="section-title">About SMEN International</h2>
+        <div class="about-content">
+            <div class="about-image animate-slide-left">
+                <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&h=600&fit=crop" alt="Business professionals">
+            </div>
+            <div class="about-text animate-slide-right">
+                <p>Since our establishment in 2021, SMEN International Company Limited has grown into a diversified conglomerate with a vision to lead across multiple sectors globally.</p>
+                <p>We combine innovation, expertise, and dedication to deliver exceptional results in Contracting, Logistics, Real Estate, and Agriculture. Our commitment to excellence drives us to exceed expectations in every project we undertake.</p>
+                <p>With a team of experienced professionals and a client-centric approach, we're building a legacy of trust, quality, and sustainable growth.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section animate-on-scroll" id="services" style="background: #f8f8f8;">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Comprehensive solutions across multiple sectors</p>
+        <div class="services-grid">
+            <div class="service-card animate-scale" id="manpower">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&h=600&fit=crop" alt="Manpower">
+                </div>
+                <div class="service-content">
+                    <h3>MANPOWER SUPPLY</h3>
+                    <p>Professional recruitment and management of highly competent technicians for offshore and onshore facilities.</p>
+                </div>
+            </div>
+
+            <div class="service-card animate-scale" id="contracting">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&h=600&fit=crop" alt="Construction">
+                </div>
+                <div class="service-content">
+                    <h3>CONTRACTING & SERVICES</h3>
+                    <p>Quality, timely, and cost-effective contracting services for residential and commercial projects.</p>
+                </div>
+            </div>
+
+            <div class="service-card animate-scale" id="logistics">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&h=600&fit=crop" alt="Logistics">
+                </div>
+                <div class="service-content">
+                    <h3>PROCUREMENT & LOGISTICS</h3>
+                    <p>Dedicated to sourcing and managing logistics, ensuring quick and economical delivery worldwide.</p>
+                </div>
+            </div>
+
+            <div class="service-card animate-scale" id="finance">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&h=600&fit=crop" alt="Finance">
+                </div>
+                <div class="service-content">
+                    <h3>FINANCE</h3>
+                    <p>Comprehensive financial services and solutions to support business growth and investment opportunities.</p>
+                </div>
+            </div>
+
+            <div class="service-card animate-scale" id="realestate">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop" alt="Real Estate">
+                </div>
+                <div class="service-content">
+                    <h3>REAL ESTATE & HOSPITALITY</h3>
+                    <p>From initial consultation to closing, we handle all aspects of real estate transactions with efficiency.</p>
+                </div>
+            </div>
+
+            <div class="service-card animate-scale" id="agriculture">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&h=600&fit=crop" alt="Agriculture">
+                </div>
+                <div class="service-content">
+                    <h3>AGRICULTURE</h3>
+                    <p>Supporting farmers and agrobusinesses in maximizing productivity through modern farming solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects animate-on-scroll" id="projects">
+        <h2 class="section-title">Our Projects</h2>
+        <p class="section-subtitle">Building excellence across diverse sectors</p>
+        <div class="projects-grid">
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop" alt="Luxury residential complex">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Real Estate</span>
+                    <h3>Luxury Residential Complex</h3>
+                    <p>A state-of-the-art residential development featuring 200 premium apartments with modern amenities.</p>
+                    <p class="project-status">✓ Completed</p>
+                </div>
+            </div>
+
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1590496793907-4e1c36236c81?w=800&h=600&fit=crop" alt="Commercial building">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Contracting</span>
+                    <h3>Tech Hub Commercial Center</h3>
+                    <p>A cutting-edge commercial building designed for tech startups and innovation hubs.</p>
+                    <p class="project-status">⏳ In Progress</p>
+                </div>
+            </div>
+
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop" alt="Agriculture farm">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Agriculture</span>
+                    <h3>Sustainable Farm Initiative</h3>
+                    <p>A 500-acre modern farming project utilizing sustainable agricultural practices and technology.</p>
+                    <p class="project-status">⏳ In Progress</p>
+                </div>
+            </div>
+
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&h=600&fit=crop" alt="Logistics center">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Logistics</span>
+                    <h3>Global Distribution Hub</h3>
+                    <p>A strategic logistics center connecting major trade routes across three continents.</p>
+                    <p class="project-status">✓ Completed</p>
+                </div>
+            </div>
+
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop" alt="Shopping mall">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Real Estate</span>
+                    <h3>Metropolitan Shopping Plaza</h3>
+                    <p>A premium retail destination featuring international brands and entertainment facilities.</p>
+                    <p class="project-status">📋 Planned</p>
+                </div>
+            </div>
+
+            <div class="project-card animate-scale">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop" alt="Infrastructure project">
+                </div>
+                <div class="project-info">
+                    <span class="project-category">Contracting</span>
+                    <h3>Highway Infrastructure Project</h3>
+                    <p>Construction of a 50km highway connecting major industrial zones with residential areas.</p>
+                    <p class="project-status">⏳ In Progress</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner With Us Section -->
+    <section class="investor-cta animate-on-scroll">
+        <h2>Partner With Us</h2>
+        <p>Are you an investor looking for lucrative opportunities? Join SMEN International in building the future across multiple thriving sectors.</p>
+        <button class="investor-btn" onclick="openInvestorModal()">Submit Your Project</button>
+    </section>
+
+    <!-- Investor Modal -->
+    <div id="investorModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeInvestorModal()">×</button>
+
+            <h2>Investment Project Submission</h2>
+            <p class="modal-subtitle">
+                Share your project details and our investment team will review it.
+            </p>
+
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>Project Name *</label>
+                    <input type="text" name="projectName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Type *</label>
+                    <select name="projectType" required>
+                        <option value="">Select project type</option>
+                        <option>Contracting</option>
+                        <option>Logistics</option>
+                        <option>Real Estate</option>
+                        <option>Agriculture</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Description *</label>
+                    <textarea name="description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Budget (USD) *</label>
+                        <input type="number" name="budget" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Project Duration *</label>
+                        <input type="text" name="duration" placeholder="e.g. 12 months" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number *</label>
+                        <div class="whatsapp-group">
+                            <select name="countryCode" required>
+                                <option value="">Code</option>
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+234">🇳🇬 +234</option>
+                                <option value="+971">🇦🇪 +971</option>
+                                <option value="+91">🇮🇳 +91</option>
+                                <option value="+61">🇦🇺 +61</option>
+                            </select>
+                            <input type="tel" name="whatsappNumber" placeholder="Phone number" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Project Location *</label>
+                    <input type="text" name="location" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Investment Amount Needed (USD) *</label>
+                    <input type="number" name="investmentAmount" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Pitch Deck / Project File (PDF) *</label>
+                    <input type="file" name="pitchDeck" accept=".pdf" required>
+                    <small>PDF only, max 10MB</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Information (Optional)</label>
+                    <textarea name="additionalInfo" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Project</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay success-overlay">
+        <div class="modal-content success-content">
+            <h2>🎉 Submission Successful</h2>
+            <p>
+                Thank you for submitting your project.<br>
+                Our investment team will contact you within
+                <strong>2–3 business days</strong>.
+            </p>
+            <button class="submit-btn" onclick="closeSuccessModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="animate-on-scroll">
+        <p>&copy; 2026 SMEN International Company Limited. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Building the future, one sector at a time.</p>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,es,fr,de,zh-CN,ar,pt,ru,ja,ko,it,hi,tr,pl,nl',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.slider-dot');
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        // Auto-advance slider every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            mobileMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Mobile Dropdown Toggle
+        function toggleMobileDropdown(event, dropdownId) {
+            event.preventDefault();
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+        }
+
+        // Language Dropdown Toggle
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Mobile Language Toggle
+        function toggleMobileLanguage() {
+            const list = document.getElementById('mobileLanguageList');
+            list.classList.toggle('active');
+        }
+
+        // Translation Function using Google Translate
+        function translatePage(langCode, langName) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.classList.add('active');
+
+            // Update language display
+            document.getElementById('currentLang').textContent = langName;
+            document.getElementById('mobileLang').textContent = 'Language: ' + langName;
+
+            // Update active state
+            document.querySelectorAll('.language-dropdown a, .mobile-language-list a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Close dropdowns
+            document.getElementById('languageDropdown').classList.remove('active');
+            document.getElementById('mobileLanguageList').classList.remove('active');
+
+            // Trigger Google Translate
+            setTimeout(() => {
+                const selectElement = document.querySelector('.goog-te-combo');
+                if (selectElement) {
+                    selectElement.value = langCode;
+                    selectElement.dispatchEvent(new Event('change'));
+                    
+                    // Hide loading after translation
+                    setTimeout(() => {
+                        loadingIndicator.classList.remove('active');
+                    }, 1500);
+                } else {
+                    loadingIndicator.classList.remove('active');
+                    console.log('Google Translate not ready yet');
+                }
+            }, 300);
+        }
+
+        // Modal Functions
+        function openInvestorModal() {
+            document.getElementById('investorModal').classList.add('active');
+        }
+
+        function closeInvestorModal() {
+            document.getElementById('investorModal').classList.remove('active');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            closeInvestorModal();
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.classList.contains('mobile-menu-link') || !this.querySelector('.dropdown-arrow')) {
+                    if (!this.hasAttribute('onclick') || !this.getAttribute('onclick').includes('translatePage')) {
+                        toggleMobileMenu();
+                    }
+                }
+            });
+        });
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.hasAttribute('onclick')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animated');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right, .animate-scale');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            const languageSelector = document.querySelector('.language-selector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            if (languageSelector && !languageSelector.contains(e.target)) {
+                languageDropdown.classList.remove('active');
+            }
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - SMEN International</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8); 
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.animated {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-scale {
+            opacity: 0;
+        }
+
+        .animate-scale.animated {
+            animation: scaleIn 0.6s ease forwards;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .top-bar a:hover {
+            color: #ffd700;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            min-width: 180px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            z-index: 1002;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .language-selector:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown a {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .language-dropdown a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.3rem;
+        }
+
+        .signup-btn {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Main Navigation */
+        .topnav {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc143c, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links > li > a:hover {
+            color: #dc143c;
+            background: rgba(220, 20, 60, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links > li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links > li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            position: relative;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-menu a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.5rem;
+        }
+
+        /* Nested Dropdown */
+        .dropdown-menu li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 120px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-top-section {
+            display: none;
+            padding: 1.5rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-top-section h3 {
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .mobile-action-btn {
+            padding: 0.8rem 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .mobile-action-btn:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            border-color: #dc143c;
+            color: #dc143c;
+        }
+
+        .mobile-menu-item {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-link:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            transform: translateX(5px);
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 500px;
+        }
+
+        .mobile-dropdown a {
+            display: block;
+            padding: 0.8rem 1rem 0.8rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .mobile-dropdown a:hover {
+            color: #dc143c;
+            padding-left: 2.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+        }
+
+        /* Hero Section */
+        .projects-hero {
+            position: relative;
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600&h=900&fit=crop') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .projects-hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .projects-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .projects-hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.8;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 5%;
+            background: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc143c, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 3rem 5% 1rem;
+            background: linear-gradient(135deg, #f8f8f8, #fff);
+        }
+
+        .filter-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.9rem 2.5rem;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        /* Projects Grid */
+        .projects-section {
+            padding: 2rem 5% 5rem;
+            background: linear-gradient(135deg, #f8f8f8, #fff);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .project-image {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.3), rgba(255, 140, 0, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .project-card:hover .project-image::before {
+            opacity: 1;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .status-completed {
+            background: rgba(40, 167, 69, 0.9);
+            color: #fff;
+        }
+
+        .status-progress {
+            background: rgba(255, 193, 7, 0.9);
+            color: #333;
+        }
+
+        .status-planned {
+            background: rgba(23, 162, 184, 0.9);
+            color: #fff;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-category {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .meta-label {
+            font-size: 0.85rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-value {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .view-details-btn {
+            width: 100%;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            background: transparent;
+            border: 2px solid #dc143c;
+            color: #dc143c;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-details-btn:hover {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Project Detail Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 3000;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 95%;
+            max-width: 900px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateY(60px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-header-image {
+            height: 400px;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-header-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .modal-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 15px;
+        }
+
+        .section-heading {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: #333;
+            border-left: 4px solid #dc143c;
+            padding-left: 1rem;
+        }
+
+        .description-text {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #dc143c;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            padding: 1.5rem;
+            border-left: 3px solid #dc143c;
+            margin-left: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            background: #ff8c00;
+            border-radius: 50%;
+            position: absolute;
+            left: -9px;
+            top: 1.7rem;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: #dc143c;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-top-section {
+                display: block;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0.5rem 3%;
+                font-size: 0.75rem;
+            }
+
+            .top-bar-left,
+            .top-bar-right {
+                gap: 0.8rem;
+            }
+
+            .signup-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.75rem;
+            }
+
+            .topnav {
+                padding: 0 3%;
+                height: 70px;
+                top: 36px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .main-content {
+                margin-top: 106px;
+            }
+
+            .projects-hero {
+                height: 50vh;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .mobile-menu {
+                top: 106px;
+                height: calc(100vh - 106px);
+            }
+
+            .modal-body {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-header-image {
+                height: 250px;
+            }
+
+            .filter-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .project-meta {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.4rem 2%;
+            }
+
+            .filter-tabs {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#media"></a>
+        </div>
+        <div class="top-bar-right">
+            <div class="language-selector">
+                <button class="language-btn">
+                    <span>🌐</span>
+                    <span>English</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="language-dropdown">
+                    <a href="#">English</a>
+                    <a href="#">Español</a>
+                    <a href="#">Français</a>
+                    <a href="#">Deutsch</a>
+                    <a href="#">中文 (Chinese)</a>
+                    <a href="#">العربية (Arabic)</a>
+                </div>
+            </div>
+            <a href="index.html#signup" class="signup-btn">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="topnav">
+        <div class="logo">
+            <img src="logo.png" alt="" style="height: 40px; vertical-align: middle;">
+        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li>
+                <a href="index.html#about">About Us<span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="index.html#vision">Who we are</a></li>
+                    <li>
+                        <a href="index.html#mission" style="display: flex; justify-content: space-between; align-items: center;">
+                            What we do
+                            <span style="font-size: 0.7rem;">▶</span>
+                        </a>
+                        <ul class="dropdown-menu" style="left: 100%; top: 0; margin-top: 0; margin-left: 0.5rem;">
+                            <li><a href="index.html#manpower">Manpower Supply</a></li>
+                            <li><a href="index.html#contracting">Contracting & Services</a></li>
+                            <li><a href="index.html#logistics">Procurement & Logistics</a></li>
+                            <li><a href="index.html#finance">Finance</a></li>
+                            <li><a href="index.html#realestate">Real Estate & Hospitality</a></li>
+                            <li><a href="index.html#agriculture">Agriculture</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#team">Leadership Team</a></li>
+                    <li><a href="/contact-us">Contact Us</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="index.html#manpower-services">Manpower Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#offshore">Offshore Personnel</a></li>
+                    <li><a href="#onshore">Onshore Personnel</a></li>
+                    <li><a href="#technical">Technical Staff</a></li>
+                </ul>
+            </li>
+            <li><a href="project.html">Projects</a></li>
+            <li>
+                <a href="index.html#csr">CSR <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#community">Community Development</a></li>
+                    <li><a href="#education">Education Initiatives</a></li>
+                    <li><a href="#environment">Environmental Programs</a></li>
+                </ul>
+            </li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#media">Media</a></li>
+        </ul>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <!-- Mobile Top Section -->
+        <div class="mobile-top-section">
+            <h3>Quick Access</h3>
+            <div class="mobile-actions">
+                <a href="#media" class="mobile-action-btn">
+                    <span>📰</span>
+                    <span>Media</span>
+                </a>
+                <a href="index.html#signup" class="mobile-action-btn">
+                    <span>✍️</span>
+                    <span>Sign Up</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Menu Items -->
+        <div class="mobile-menu-item">
+            <a href="index.html" class="mobile-menu-link">Home</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'about-dropdown')">
+                About Us <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="about-dropdown">
+                <a href="index.html#vision">Who we are</a>
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, 'whatwedo-dropdown')">What we do ▶</a>
+                <div class="mobile-dropdown" id="whatwedo-dropdown" style="padding-left: 1rem;">
+                    <a href="index.html#manpower">Manpower Supply</a>
+                    <a href="index.html#contracting">Contracting & Services</a>
+                    <a href="index.html#logistics">Procurement & Logistics</a>
+                    <a href="index.html#finance">Finance</a>
+                    <a href="index.html#realestate">Real Estate & Hospitality</a>
+                    <a href="index.html#agriculture">Agriculture</a>
+                </div>
+                <a href="index.html#team">Leadership Team</a>
+                <a href="/contact-us">Contact Us</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'manpower-dropdown')">
+                Manpower Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="manpower-dropdown">
+                <a href="#offshore">Offshore Personnel</a>
+                <a href="#onshore">Onshore Personnel</a>
+                <a href="#technical">Technical Staff</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="project.html" class="mobile-menu-link">Projects</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'csr-dropdown')">
+                CSR <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="csr-dropdown">
+                <a href="#community">Community Development</a>
+                <a href="#education">Education Initiatives</a>
+                <a href="#environment">Environmental Programs</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#careers" class="mobile-menu-link">Careers</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#media" class="mobile-menu-link">Media</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="projects-hero">
+            <div class="projects-hero-content">
+                <h1>Our Projects</h1>
+                <p>Transforming visions into reality across four continents. Explore our portfolio of completed and ongoing projects that showcase our commitment to excellence and innovation.</p>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section animate-on-scroll">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="25">0</div>
+                    <div class="stat-label">Ongoing Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="2.5" data-suffix="B">0</div>
+                    <div class="stat-label">Total Investment</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section animate-on-scroll">
+            <div class="filter-container">
+                <div class="filter-tabs">
+                    <button class="filter-btn active" onclick="filterProjects('all')">All Projects</button>
+                    <button class="filter-btn" onclick="filterProjects('Contracting')">Contracting</button>
+                    <button class="filter-btn" onclick="filterProjects('Logistics')">Logistics</button>
+                    <button class="filter-btn" onclick="filterProjects('Real Estate')">Real Estate</button>
+                    <button class="filter-btn" onclick="filterProjects('Agriculture')">Agriculture</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid -->
+        <section class="projects-section" id="projects">
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be rendered here by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeProjectModal()">×</button>
+            <div id="modalContent">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="animate-on-scroll">
+        <p>&copy; 2026 SMEN International Company Limited. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Building the future, one sector at a time.</p>
+    </footer>
+
+    <script>
+        // Project Data
+        const projects = [
+            {
+                id: 1,
+                title: "Luxury Residential Complex",
+                category: "Real Estate",
+                location: "Lagos, Nigeria",
+                status: "Completed",
+                budget: "$45M",
+                duration: "24 months",
+                completion: "December 2025",
+                image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop",
+                description: "A state-of-the-art residential development featuring 200 premium apartments with world-class amenities including a swimming pool, gym, children's playground, and 24/7 security. The complex incorporates sustainable design principles and smart home technology.",
+                features: [
+                    "200 premium apartments with modern finishes",
+                    "Olympic-size swimming pool and fitness center",
+                    "Underground parking for 300 vehicles",
+                    "24/7 security and CCTV surveillance",
+                    "Solar power backup system",
+                    "Landscaped gardens and recreational areas",
+                    "Smart home automation in all units"
+                ],
+                timeline: [
+                    { date: "January 2024", event: "Project initiated and land acquisition completed" },
+                    { date: "March 2024", event: "Foundation and structural work commenced" },
+                    { date: "September 2024", event: "Building envelope completed" },
+                    { date: "December 2025", event: "Project completed and handed over" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Tech Hub Commercial Center",
+                category: "Contracting",
+                location: "Accra, Ghana",
+                status: "In Progress",
+                budget: "$65M",
+                duration: "30 months",
+                completion: "June 2026",
+                image: "https://images.unsplash.com/photo-1590496793907-4e1c36236c81?w=800&h=600&fit=crop",
+                description: "A cutting-edge commercial building designed specifically for tech startups and innovation hubs. Features include flexible co-working spaces, high-speed connectivity infrastructure, and sustainable energy systems.",
+                features: [
+                    "15-story commercial building with flexible office layouts",
+                    "High-speed fiber optic connectivity throughout",
+                    "Conference facilities with video conferencing capabilities",
+                    "Cafeteria and break-out spaces on each floor",
+                    "Green building certification (LEED Gold)",
+                    "Electric vehicle charging stations",
+                    "Rooftop solar panel installation"
+                ],
+                timeline: [
+                    { date: "June 2024", event: "Construction commenced" },
+                    { date: "November 2024", event: "Structural framework 60% complete" },
+                    { date: "March 2025", event: "MEP installations in progress" },
+                    { date: "June 2026", event: "Scheduled completion date" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Sustainable Farm Initiative",
+                category: "Agriculture",
+                location: "Nairobi, Kenya",
+                status: "In Progress",
+                budget: "$28M",
+                duration: "18 months",
+                completion: "August 2026",
+                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop",
+                description: "A 500-acre modern farming project utilizing sustainable agricultural practices and cutting-edge technology. The farm specializes in organic produce and implements water conservation methods.",
+                features: [
+                    "500 acres of cultivated farmland",
+                    "Drip irrigation system covering entire farm",
+                    "Solar-powered water pumps and storage",
+                    "Organic certification for all produce",
+                    "On-site processing and packaging facility",
+                    "Climate-controlled greenhouses for year-round production",
+                    "Farm-to-market distribution network"
+                ],
+                timeline: [
+                    { date: "February 2025", event: "Land preparation and soil testing completed" },
+                    { date: "May 2025", event: "Irrigation infrastructure installed" },
+                    { date: "July 2025", event: "First crop planting commenced" },
+                    { date: "August 2026", event: "Full operational capacity expected" }
+                ]
+            },
+            {
+                id: 4,
+                title: "Global Distribution Hub",
+                category: "Logistics",
+                location: "Dubai, UAE",
+                status: "Completed",
+                budget: "$85M",
+                duration: "20 months",
+                completion: "October 2025",
+                image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&h=600&fit=crop",
+                description: "A strategic logistics center connecting major trade routes across Asia, Europe, and Africa. Features state-of-the-art warehousing, automated sorting systems, and temperature-controlled storage.",
+                features: [
+                    "250,000 sq ft of warehousing space",
+                    "Automated inventory management system",
+                    "Temperature-controlled storage zones",
+                    "24/7 operational capability",
+                    "Direct access to major highways and airports",
+                    "Advanced security and tracking systems",
+                    "Container handling capacity of 5,000 TEU"
+                ],
+                timeline: [
+                    { date: "February 2024", event: "Construction began" },
+                    { date: "June 2024", event: "Warehouse structure completed" },
+                    { date: "September 2025", event: "Automation systems installed and tested" },
+                    { date: "October 2025", event: "Facility operational" }
+                ]
+            },
+            {
+                id: 5,
+                title: "Metropolitan Shopping Plaza",
+                category: "Real Estate",
+                location: "London, UK",
+                status: "Planned",
+                budget: "$120M",
+                duration: "36 months",
+                completion: "2027",
+                image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop",
+                description: "A premium retail destination featuring international brands, entertainment facilities, and dining experiences. The plaza will become a landmark shopping and leisure destination in the heart of London.",
+                features: [
+                    "300,000 sq ft of retail space across 4 levels",
+                    "100+ international and local brand stores",
+                    "Multi-screen cinema complex",
+                    "Fine dining restaurants and food court",
+                    "Children's entertainment zone",
+                    "Multi-level parking for 1,000+ vehicles",
+                    "Sustainable design with natural lighting"
+                ],
+                timeline: [
+                    { date: "Q1 2026", event: "Planning and design approval" },
+                    { date: "Q3 2026", event: "Construction commencement" },
+                    { date: "Q2 2027", event: "Structural work completion" },
+                    { date: "Q4 2027", event: "Grand opening scheduled" }
+                ]
+            },
+            {
+                id: 6,
+                title: "Highway Infrastructure Project",
+                category: "Contracting",
+                location: "Port Harcourt, Nigeria",
+                status: "In Progress",
+                budget: "$95M",
+                duration: "28 months",
+                completion: "April 2027",
+                image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop",
+                description: "Construction of a 50km highway connecting major industrial zones with residential areas. The project includes bridge construction, drainage systems, and modern road lighting.",
+                features: [
+                    "50km of dual carriageway highway",
+                    "8 major bridge structures",
+                    "Modern LED street lighting system",
+                    "Advanced drainage and flood control",
+                    "Emergency lay-by areas every 5km",
+                    "Pedestrian walkways and cycling lanes",
+                    "Traffic management and monitoring systems"
+                ],
+                timeline: [
+                    { date: "December 2024", event: "Project kick-off and site mobilization" },
+                    { date: "March 2025", event: "Earthworks 40% complete" },
+                    { date: "October 2025", event: "Bridge construction in progress" },
+                    { date: "April 2027", event: "Projected completion" }
+                ]
+            },
+            {
+                id: 7,
+                title: "Port Expansion Project",
+                category: "Logistics",
+                location: "Singapore",
+                status: "In Progress",
+                budget: "$150M",
+                duration: "32 months",
+                completion: "March 2027",
+                image: "https://images.unsplash.com/photo-1605731414934-e86d1f2e96a6?w=800&h=600&fit=crop",
+                description: "Expansion of port facilities to increase container handling capacity and improve operational efficiency. Includes new berths, cranes, and automated container handling systems.",
+                features: [
+                    "2 new deep-water berths",
+                    "6 ship-to-shore gantry cranes",
+                    "Automated container stacking system",
+                    "Rail connectivity for inland transport",
+                    "Advanced port management software",
+                    "Capacity for 2 million TEU annually",
+                    "Green port sustainability measures"
+                ],
+                timeline: [
+                    { date: "July 2024", event: "Marine works commenced" },
+                    { date: "February 2025", event: "Berth construction 50% complete" },
+                    { date: "September 2026", event: "Crane installation begins" },
+                    { date: "March 2027", event: "Port expansion operational" }
+                ]
+            },
+            {
+                id: 8,
+                title: "Agro-Processing Facility",
+                category: "Agriculture",
+                location: "Brisbane, Australia",
+                status: "Completed",
+                budget: "$42M",
+                duration: "16 months",
+                completion: "November 2025",
+                image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&h=600&fit=crop",
+                description: "A modern agro-processing facility for grain storage, processing, and packaging. Features include temperature-controlled silos, automated processing lines, and quality control laboratories.",
+                features: [
+                    "50,000 tons grain storage capacity",
+                    "Automated processing and packaging lines",
+                    "Quality control laboratory",
+                    "Cold storage facilities",
+                    "Direct rail and road connectivity",
+                    "Solar power generation system",
+                    "Waste management and recycling unit"
+                ],
+                timeline: [
+                    { date: "July 2024", event: "Construction started" },
+                    { date: "January 2025", event: "Building structure completed" },
+                    { date: "August 2025", event: "Equipment installation and testing" },
+                    { date: "November 2025", event: "Facility fully operational" }
+                ]
+            },
+            {
+                id: 9,
+                title: "Mixed-Use Development",
+                category: "Real Estate",
+                location: "New York, USA",
+                status: "Planned",
+                budget: "$200M",
+                duration: "40 months",
+                completion: "2028",
+                image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
+                description: "A landmark mixed-use development combining luxury residences, premium office spaces, and retail outlets in the heart of Manhattan. The project emphasizes sustainability and modern urban living.",
+                features: [
+                    "25-story tower with 150 luxury apartments",
+                    "10 floors of premium office space",
+                    "Ground floor retail and dining",
+                    "Rooftop garden and amenity deck",
+                    "LEED Platinum certification target",
+                    "Bike storage and EV charging",
+                    "Concierge and property management services"
+                ],
+                timeline: [
+                    { date: "Q2 2026", event: "Permits and approvals finalization" },
+                    { date: "Q4 2026", event: "Foundation work begins" },
+                    { date: "Q3 2027", event: "Superstructure completion" },
+                    { date: "Q1 2028", event: "Project delivery scheduled" }
+                ]
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        // Animated Counter Function
+        function animateCounter(element) {
+            const target = parseFloat(element.getAttribute('data-target'));
+            const suffix = element.getAttribute('data-suffix') || '+';
+            const prefix = element.getAttribute('data-prefix') || '';
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                // Format number
+                let displayValue = current;
+                if (suffix === 'B') {
+                    displayValue = current.toFixed(1) + 'B+';
+                } else {
+                    displayValue = Math.floor(current) + suffix;
+                }
+                
+                element.textContent = prefix + displayValue;
+            }, 16);
+        }
+
+        // Render Projects
+        function renderProjects() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            const filteredProjects = currentFilter === 'all' 
+                ? projects 
+                : projects.filter(project => project.category === currentFilter);
+
+            projectsGrid.innerHTML = filteredProjects.map((project, index) => {
+                const statusClass = project.status === 'Completed' ? 'status-completed' : 
+                                   project.status === 'In Progress' ? 'status-progress' : 'status-planned';
+                const statusIcon = project.status === 'Completed' ? '✓' : 
+                                  project.status === 'In Progress' ? '⏳' : '📋';
+
+                return `
+                    <div class="project-card animate-scale" onclick="openProjectModal(${project.id})" style="animation-delay: ${index * 0.1}s">
+                        <div class="project-image">
+                            <img src="${project.image}" alt="${project.title}">
+                            <div class="project-status-badge ${statusClass}">
+                                ${statusIcon} ${project.status}
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <span class="project-category">${project.category}</span>
+                            <h3 class="project-title">${project.title}</h3>
+                            <p class="project-description">${project.description.substring(0, 120)}...</p>
+                            
+                            <div class="project-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">Location</span>
+                                    <span class="meta-value">📍 ${project.location}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Budget</span>
+                                    <span class="meta-value">💰 ${project.budget}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Duration</span>
+                                    <span class="meta-value">⏱️ ${project.duration}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Completion</span>
+                                    <span class="meta-value">📅 ${project.completion}</span>
+                                </div>
+                            </div>
+                            
+                            <button class="view-details-btn" onclick="event.stopPropagation(); openProjectModal(${project.id})">
+                                View Full Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Trigger animation observer
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.project-card.animate-scale');
+                cards.forEach(card => card.classList.add('animated'));
+            }, 100);
+        }
+
+        // Filter Projects
+        function filterProjects(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderProjects();
+        }
+
+        // Open Project Modal
+        function openProjectModal(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            const modalContent = document.getElementById('modalContent');
+            const statusClass = project.status === 'Completed' ? 'status-completed' : 
+                               project.status === 'In Progress' ? 'status-progress' : 'status-planned';
+
+            modalContent.innerHTML = `
+                <div class="modal-header-image">
+                    <img src="${project.image}" alt="${project.title}">
+                </div>
+                <div class="modal-body">
+                    <span class="project-category">${project.category}</span>
+                    <h2 class="modal-title">${project.title}</h2>
+                    
+                    <div class="modal-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">Location</span>
+                            <span class="meta-value">📍 ${project.location}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Status</span>
+                            <span class="meta-value project-status-badge ${statusClass}">${project.status}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Budget</span>
+                            <span class="meta-value">💰 ${project.budget}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Duration</span>
+                            <span class="meta-value">⏱️ ${project.duration}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Completion</span>
+                            <span class="meta-value">📅 ${project.completion}</span>
+                        </div>
+                    </div>
+
+                    <h3 class="section-heading">Project Overview</h3>
+                    <p class="description-text">${project.description}</p>
+
+                    <h3 class="section-heading">Key Features</h3>
+                    <ul class="features-list">
+                        ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+                    </ul>
+
+                    <h3 class="section-heading">Project Timeline</h3>
+                    <div class="timeline">
+                        ${project.timeline.map(item => `
+                            <div class="timeline-item">
+                                <div class="timeline-date">${item.date}</div>
+                                <div class="timeline-content">${item.event}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const modal = document.getElementById('projectModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Project Modal
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            mobileMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Mobile Dropdown Toggle
+        function toggleMobileDropdown(event, dropdownId) {
+            event.preventDefault();
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const hasDropdownOnclick = this.hasAttribute('onclick') && 
+                    this.getAttribute('onclick').includes('toggleMobileDropdown');
+                
+                const isDropdownLink = this.classList.contains('mobile-menu-link') && 
+                    this.querySelector('.dropdown-arrow');
+                
+                if (!hasDropdownOnclick && !isDropdownLink) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('projectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProjectModal();
+            }
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    
+                    // Animate counters when stats section comes into view
+                    if (entry.target.classList.contains('stats-section')) {
+                        const counters = entry.target.querySelectorAll('.stat-number');
+                        counters.forEach(counter => {
+                            animateCounter(counter);
+                        });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProjects();
+            
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-scale');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.hasAttribute('onclick')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

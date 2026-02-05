@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Gallery - SMEN International</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8); 
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.animated {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-scale {
+            opacity: 0;
+        }
+
+        .animate-scale.animated {
+            animation: scaleIn 0.6s ease forwards;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .top-bar a:hover {
+            color: #ffd700;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            min-width: 180px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            z-index: 1002;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .language-selector:hover .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown a {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .language-dropdown a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.3rem;
+        }
+
+        .signup-btn {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Main Navigation */
+        .topnav {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc143c, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links > li > a:hover {
+            color: #dc143c;
+            background: rgba(220, 20, 60, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links > li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links > li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            position: relative;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-menu a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.5rem;
+        }
+
+        /* Nested Dropdown */
+        .dropdown-menu li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 120px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-top-section {
+            display: none;
+            padding: 1.5rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-top-section h3 {
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .mobile-action-btn {
+            padding: 0.8rem 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .mobile-action-btn:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            border-color: #dc143c;
+            color: #dc143c;
+        }
+
+        .mobile-menu-item {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-link:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            transform: translateX(5px);
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 500px;
+        }
+
+        .mobile-dropdown a {
+            display: block;
+            padding: 0.8rem 1rem 0.8rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .mobile-dropdown a:hover {
+            color: #dc143c;
+            padding-left: 2.5rem;
+        }
+
+        /* Hero Section */
+        .media-hero {
+            margin-top: 120px;
+            height: 50vh;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.9), rgba(255, 140, 0, 0.9)),
+                        url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1600&h=900&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .media-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.8;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 3rem 5% 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.9rem 2.5rem;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            color: #333;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            border-radius: 2px;
+        }
+
+        /* Video Gallery */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 3rem auto 0;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-date {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .video-info h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            margin-bottom: 0.8rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .video-info p {
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+            line-height: 1.7;
+            color: #666;
+        }
+
+        /* Photo Gallery */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 3rem auto 0;
+        }
+
+        .photo-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .photo-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.3), rgba(255, 140, 0, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .photo-card:hover .photo-image::before {
+            opacity: 1;
+        }
+
+        .photo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-card:hover .photo-image img {
+            transform: scale(1.1);
+        }
+
+        .photo-info {
+            padding: 1.5rem;
+        }
+
+        .photo-date {
+            display: inline-block;
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .photo-info h3 {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            margin-bottom: 0.8rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .photo-info p {
+            font-size: clamp(0.9rem, 1.8vw, 0.95rem);
+            line-height: 1.7;
+            color: #666;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: auto;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            right: 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .lightbox-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-info p {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* Hidden Class */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+        }
+
+        footer p {
+            font-size: clamp(0.8rem, 1.8vw, 0.95rem);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-top-section {
+                display: block;
+            }
+
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0.5rem 3%;
+                font-size: 0.75rem;
+            }
+
+            .top-bar-left,
+            .top-bar-right {
+                gap: 0.8rem;
+            }
+
+            .signup-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.75rem;
+            }
+
+            .topnav {
+                padding: 0 3%;
+                height: 70px;
+                top: 36px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .media-hero {
+                height: 40vh;
+                margin-top: 106px;
+            }
+
+            .section {
+                padding: 3rem 4%;
+            }
+
+            .filter-tabs {
+                padding: 2rem 4% 1.5rem;
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .mobile-menu {
+                top: 106px;
+                height: calc(100vh - 106px);
+            }
+
+            .lightbox-content {
+                max-width: 95%;
+            }
+
+            .lightbox-info {
+                bottom: -100px;
+            }
+
+            .lightbox-info h3 {
+                font-size: 1.2rem;
+            }
+
+            .lightbox-info p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.4rem 2%;
+            }
+
+            .section {
+                padding: 2.5rem 3%;
+            }
+
+            .filter-tabs {
+                padding: 1.5rem 3% 1rem;
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .video-info,
+            .photo-info {
+                padding: 1.2rem;
+            }
+
+            .photo-image {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#media"></a>
+        </div>
+        <div class="top-bar-right">
+            <div class="language-selector">
+                <button class="language-btn">
+                    <span>🌐</span>
+                    <span>English</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="language-dropdown">
+                    <a href="#">English</a>
+                    <a href="#">Español</a>
+                    <a href="#">Français</a>
+                    <a href="#">Deutsch</a>
+                    <a href="#">中文 (Chinese)</a>
+                    <a href="#">العربية (Arabic)</a>
+                </div>
+            </div>
+            <a href="index.html#signup" class="signup-btn">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="topnav">
+        <div class="logo">
+            <img src="logo.png" alt="" style="height: 40px; vertical-align: middle;">
+        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li>
+                <a href="index.html#about">About Us<span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="index.html#vision">Who we are</a></li>
+                    <li>
+                        <a href="index.html#mission" style="display: flex; justify-content: space-between; align-items: center;">
+                            What we do
+                            <span style="font-size: 0.7rem;">▶</span>
+                        </a>
+                        <ul class="dropdown-menu" style="left: 100%; top: 0; margin-top: 0; margin-left: 0.5rem;">
+                            <li><a href="index.html#manpower">Manpower Supply</a></li>
+                            <li><a href="index.html#contracting">Contracting & Services</a></li>
+                            <li><a href="index.html#logistics">Procurement & Logistics</a></li>
+                            <li><a href="index.html#finance">Finance</a></li>
+                            <li><a href="index.html#realestate">Real Estate & Hospitality</a></li>
+                            <li><a href="index.html#agriculture">Agriculture</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html#team">Leadership Team</a></li>
+                    <li><a href="/contact-us">Contact Us</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="index.html#manpower-services">Manpower Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#offshore">Offshore Personnel</a></li>
+                    <li><a href="#onshore">Onshore Personnel</a></li>
+                    <li><a href="#technical">Technical Staff</a></li>
+                </ul>
+            </li>
+            <li><a href="project.html">Projects</a></li>
+            <li>
+                <a href="index.html#csr">CSR <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#community">Community Development</a></li>
+                    <li><a href="#education">Education Initiatives</a></li>
+                    <li><a href="#environment">Environmental Programs</a></li>
+                </ul>
+            </li>
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="media.html">Media</a></li>
+        </ul>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <!-- Mobile Top Section -->
+        <div class="mobile-top-section">
+            <h3>Quick Access</h3>
+            <div class="mobile-actions">
+                <a href="media.html" class="mobile-action-btn">
+                    <span>📰</span>
+                    <span>Media</span>
+                </a>
+                <a href="index.html#signup" class="mobile-action-btn">
+                    <span>✍️</span>
+                    <span>Sign Up</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Menu Items -->
+        <div class="mobile-menu-item">
+            <a href="index.html" class="mobile-menu-link">Home</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'about-dropdown')">
+                About Us <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="about-dropdown">
+                <a href="index.html#vision">Who we are</a>
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, 'whatwedo-dropdown')">What we do ▶</a>
+                <div class="mobile-dropdown" id="whatwedo-dropdown" style="padding-left: 1rem;">
+                    <a href="index.html#manpower">Manpower Supply</a>
+                    <a href="index.html#contracting">Contracting & Services</a>
+                    <a href="index.html#logistics">Procurement & Logistics</a>
+                    <a href="index.html#finance">Finance</a>
+                    <a href="index.html#realestate">Real Estate & Hospitality</a>
+                    <a href="index.html#agriculture">Agriculture</a>
+                </div>
+                <a href="index.html#team">Leadership Team</a>
+                <a href="/contact-us">Contact Us</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'manpower-dropdown')">
+                Manpower Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="manpower-dropdown">
+                <a href="#offshore">Offshore Personnel</a>
+                <a href="#onshore">Onshore Personnel</a>
+                <a href="#technical">Technical Staff</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="project.html" class="mobile-menu-link">Projects</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'csr-dropdown')">
+                CSR <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="csr-dropdown">
+                <a href="#community">Community Development</a>
+                <a href="#education">Education Initiatives</a>
+                <a href="#environment">Environmental Programs</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#careers" class="mobile-menu-link">Careers</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="media.html" class="mobile-menu-link">Media</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="media-hero">
+        <div class="hero-content">
+            <h1>Media Gallery</h1>
+            <p>Explore our journey through memorable moments, events, and achievements</p>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterMedia('all')">All Media</button>
+        <button class="filter-btn" onclick="filterMedia('videos')">Videos</button>
+        <button class="filter-btn" onclick="filterMedia('photos')">Photos</button>
+    </div>
+
+    <!-- Videos Section -->
+    <section class="section" id="videos-section">
+        <h2 class="section-title animate-on-scroll">Video Gallery</h2>
+        <div class="video-grid">
+            <!-- Video 1 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                        title="Company Overview"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 January 15, 2026</span>
+                    <h3>SMEN International: Company Overview</h3>
+                    <p>An exclusive look into SMEN International's operations, showcasing our diverse business sectors and commitment to excellence across contracting, logistics, real estate, and agriculture.</p>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/jNQXAC9IVRw" 
+                        title="Project Launch"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 December 20, 2025</span>
+                    <h3>Luxury Residential Complex Grand Launch</h3>
+                    <p>The official groundbreaking ceremony of our flagship 200-unit luxury residential development. This event marked a significant milestone in our real estate expansion strategy.</p>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/9bZkp7q19f0" 
+                        title="CSR Initiative"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 November 10, 2025</span>
+                    <h3>Community Development Initiative</h3>
+                    <p>Highlights from our community development program where we partnered with local schools to provide educational resources and infrastructure improvements affecting over 5,000 students.</p>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/ScMzIvxBSi4" 
+                        title="Agricultural Innovation"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 October 5, 2025</span>
+                    <h3>Sustainable Agriculture Technology Tour</h3>
+                    <p>A behind-the-scenes tour of our 500-acre sustainable farm showcasing cutting-edge agricultural technology, precision farming techniques, and our commitment to environmental stewardship.</p>
+                </div>
+            </div>
+
+            <!-- Video 5 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/M7lc1UVf-VE" 
+                        title="Annual Gala"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 September 18, 2025</span>
+                    <h3>Annual Business Excellence Gala 2025</h3>
+                    <p>Memorable moments from our annual gala celebrating outstanding achievements, recognizing top performers, and strengthening partnerships with industry leaders and stakeholders.</p>
+                </div>
+            </div>
+
+            <!-- Video 6 -->
+            <div class="video-card animate-scale" data-category="videos">
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/yaqe1qesQ8c" 
+                        title="Infrastructure Project"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <span class="video-date">📅 August 22, 2025</span>
+                    <h3>Highway Infrastructure Project Progress</h3>
+                    <p>Construction update on our ambitious 50km highway project connecting major industrial and residential zones. This video showcases our engineering capabilities and project management excellence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photos Section -->
+    <section class="section" id="photos-section" style="background: #f8f8f8;">
+        <h2 class="section-title animate-on-scroll">Photo Gallery</h2>
+        <div class="photo-grid">
+            <!-- Photo 1 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo1', 'Corporate Headquarters Ribbon Cutting', 'The official opening ceremony of our new state-of-the-art corporate headquarters in Lagos, attended by government officials, business partners, and stakeholders.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&h=600&fit=crop" alt="Headquarters Opening">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 January 8, 2026</span>
+                    <h3>Corporate Headquarters Ribbon Cutting</h3>
+                    <p>The official opening ceremony of our new state-of-the-art corporate headquarters in Lagos.</p>
+                </div>
+            </div>
+
+            <!-- Photo 2 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo2', 'Team Building Retreat 2025', 'Annual team building event bringing together staff from all divisions for leadership training, team activities, and strategic planning sessions in a beautiful resort setting.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop" alt="Team Building">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 December 15, 2025</span>
+                    <h3>Team Building Retreat 2025</h3>
+                    <p>Annual team building event bringing together staff from all divisions for leadership training and activities.</p>
+                </div>
+            </div>
+
+            <!-- Photo 3 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo3', 'International Trade Exhibition', 'SMEN International showcasing our services at the West Africa International Trade Fair, connecting with potential partners and clients from across the continent.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop" alt="Trade Exhibition">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 November 28, 2025</span>
+                    <h3>International Trade Exhibition</h3>
+                    <p>SMEN International showcasing our services at the West Africa International Trade Fair.</p>
+                </div>
+            </div>
+
+            <!-- Photo 4 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo4', 'Scholarship Award Ceremony', 'Awarding educational scholarships to 50 outstanding students from underserved communities as part of our commitment to education and youth development.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop" alt="Scholarship Ceremony">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 October 30, 2025</span>
+                    <h3>Scholarship Award Ceremony</h3>
+                    <p>Awarding educational scholarships to 50 outstanding students from underserved communities.</p>
+                </div>
+            </div>
+
+            <!-- Photo 5 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo5', 'Construction Site Inspection', 'Executive leadership conducting a comprehensive site inspection of the Tech Hub Commercial Center, reviewing progress and quality standards with the construction team.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop" alt="Site Inspection">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 October 12, 2025</span>
+                    <h3>Construction Site Inspection</h3>
+                    <p>Executive leadership conducting inspection of the Tech Hub Commercial Center construction site.</p>
+                </div>
+            </div>
+
+            <!-- Photo 6 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo6', 'Partnership Agreement Signing', 'Historic moment as SMEN International signs a strategic partnership with a leading European logistics company, expanding our international reach and service capabilities.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop" alt="Partnership Signing">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 September 25, 2025</span>
+                    <h3>Partnership Agreement Signing</h3>
+                    <p>Strategic partnership signing with a leading European logistics company expanding our reach.</p>
+                </div>
+            </div>
+
+            <!-- Photo 7 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo7', 'Environmental Conservation Project', 'Launching our green initiative with a tree-planting campaign. Over 10,000 trees planted in partnership with local environmental organizations.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop" alt="Tree Planting">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 August 18, 2025</span>
+                    <h3>Environmental Conservation Project</h3>
+                    <p>Launching our green initiative with a tree-planting campaign across multiple communities.</p>
+                </div>
+            </div>
+
+            <!-- Photo 8 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo8', 'Logistics Fleet Expansion', 'Unveiling our new fleet of 50 modern logistics vehicles equipped with GPS tracking and eco-friendly technology, strengthening our distribution network.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=800&h=600&fit=crop" alt="Fleet Launch">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 July 30, 2025</span>
+                    <h3>Logistics Fleet Expansion</h3>
+                    <p>Unveiling our new fleet of modern logistics vehicles equipped with advanced tracking technology.</p>
+                </div>
+            </div>
+
+            <!-- Photo 9 -->
+            <div class="photo-card animate-scale" data-category="photos" onclick="openLightbox('photo9', 'Youth Empowerment Workshop', 'Skills training workshop for 200 young professionals, providing vocational training in construction, logistics management, and agricultural technology.')">
+                <div class="photo-image">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop" alt="Youth Workshop">
+                </div>
+                <div class="photo-info">
+                    <span class="photo-date">📅 June 22, 2025</span>
+                    <h3>Youth Empowerment Workshop</h3>
+                    <p>Skills training workshop for young professionals in construction and logistics management.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <img id="lightbox-image" src="" alt="">
+            <div class="lightbox-info">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="animate-on-scroll">
+        <p>&copy; 2026 SMEN International Company Limited. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Building the future, one sector at a time.</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            mobileMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Mobile Dropdown Toggle
+        function toggleMobileDropdown(event, dropdownId) {
+            event.preventDefault();
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const hasDropdownOnclick = this.hasAttribute('onclick') && 
+                    this.getAttribute('onclick').includes('toggleMobileDropdown');
+                
+                const isDropdownLink = this.classList.contains('mobile-menu-link') && 
+                    this.querySelector('.dropdown-arrow');
+                
+                if (!hasDropdownOnclick && !isDropdownLink) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Filter Media
+        function filterMedia(category) {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const videoSection = document.getElementById('videos-section');
+            const photoSection = document.getElementById('photos-section');
+
+            // Update active button
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide sections based on filter
+            if (category === 'all') {
+                videoSection.classList.remove('hidden');
+                photoSection.classList.remove('hidden');
+            } else if (category === 'videos') {
+                videoSection.classList.remove('hidden');
+                photoSection.classList.add('hidden');
+            } else if (category === 'photos') {
+                videoSection.classList.add('hidden');
+                photoSection.classList.remove('hidden');
+            }
+
+            // Smooth scroll to visible content
+            setTimeout(() => {
+                if (category === 'videos') {
+                    videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else if (category === 'photos') {
+                    photoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        // Lightbox Functions
+        const photoImages = {
+            'photo1': 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1200&h=800&fit=crop',
+            'photo2': 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop',
+            'photo3': 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=800&fit=crop',
+            'photo4': 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200&h=800&fit=crop',
+            'photo5': 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=800&fit=crop',
+            'photo6': 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&h=800&fit=crop',
+            'photo7': 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=800&fit=crop',
+            'photo8': 'https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?w=1200&h=800&fit=crop',
+            'photo9': 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1200&h=800&fit=crop'
+        };
+
+        function openLightbox(photoId, title, description) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxDescription = document.getElementById('lightbox-description');
+
+            lightboxImage.src = photoImages[photoId];
+            lightboxTitle.textContent = title;
+            lightboxDescription.textContent = description;
+
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animated');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-scale');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Smooth scroll for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.hasAttribute('onclick')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

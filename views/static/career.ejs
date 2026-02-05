@@ -1,0 +1,2336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - SMEN International</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px); 
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0); 
+            }
+        }
+
+        @keyframes scaleIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.8); 
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+        }
+
+        .animate-on-scroll.animated {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .animate-slide-left {
+            opacity: 0;
+        }
+
+        .animate-slide-left.animated {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .animate-slide-right {
+            opacity: 0;
+        }
+
+        .animate-slide-right.animated {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        .animate-scale {
+            opacity: 0;
+        }
+
+        .animate-scale.animated {
+            animation: scaleIn 0.6s ease forwards;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 0.6rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            animation: slideInLeft 0.5s ease;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .top-bar a:hover {
+            color: #ffd700;
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            border-color: #ffd700;
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            min-width: 180px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            z-index: 1002;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .language-selector:hover .language-dropdown,
+        .language-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown a {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .language-dropdown a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.3rem;
+        }
+
+        .language-dropdown a.active {
+            background: rgba(220, 20, 60, 0.1);
+            color: #dc143c;
+            font-weight: 600;
+        }
+
+        .signup-btn {
+            background: linear-gradient(135deg, #dc143c, #ff8c00);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+        }
+
+        /* Main Navigation */
+        .topnav {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            animation: slideInRight 0.5s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #dc143c, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links > li > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links > li > a:hover {
+            color: #dc143c;
+            background: rgba(220, 20, 60, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links > li:hover .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 0.5rem 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links > li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li {
+            list-style: none;
+            position: relative;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-menu a:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            padding-left: 1.5rem;
+        }
+
+        /* Nested Dropdown */
+        .dropdown-menu li:hover > .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 120px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-item {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f8f8;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-link:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            color: #dc143c;
+            transform: translateX(5px);
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 500px;
+        }
+
+        .mobile-dropdown a {
+            display: block;
+            padding: 0.8rem 1rem 0.8rem 2rem;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .mobile-dropdown a:hover {
+            color: #dc143c;
+            padding-left: 2.5rem;
+        }
+
+        /* Mobile Language and Media Section */
+        .mobile-top-section {
+            display: none;
+            padding: 1.5rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-top-section h3 {
+            font-size: 0.9rem;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .mobile-action-btn {
+            padding: 0.8rem 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .mobile-action-btn:hover {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.1), rgba(255, 140, 0, 0.1));
+            border-color: #dc143c;
+            color: #dc143c;
+        }
+
+        .mobile-language-selector {
+            position: relative;
+        }
+
+        .mobile-language-list {
+            display: none;
+            margin-top: 0.5rem;
+            background: #fff;
+            border-radius: 4px;
+            padding: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .mobile-language-list.active {
+            display: block;
+        }
+
+        .mobile-language-list a {
+            display: block;
+            padding: 0.6rem 1rem;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .mobile-language-list a:hover {
+            background: rgba(220, 20, 60, 0.1);
+            color: #dc143c;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+        }
+
+        /* Hero Section */
+        .career-hero {
+            position: relative;
+            height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&h=900&fit=crop') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        .career-hero-content {
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .career-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .career-hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.8;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 5rem 5%;
+            background: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: #f9f9f9;
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .benefit-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Jobs Section */
+        .jobs-section {
+            padding: 5rem 5%;
+            background: linear-gradient(135deg, #f8f8f8, #fff);
+        }
+
+        /* Enhanced Filter Controls */
+        .filter-controls {
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .filter-search-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem 0.9rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .filter-dropdown-wrapper {
+            position: relative;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.9rem 2.5rem 0.9rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .filter-select:hover {
+            border-color: #ff8c00;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .clear-filters-btn {
+            padding: 0.9rem 1.5rem;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #666;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .clear-filters-btn:hover {
+            background: #f8f8f8;
+            border-color: #dc143c;
+            color: #dc143c;
+        }
+
+        .active-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 140, 0, 0.2));
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .filter-tag button {
+            background: none;
+            border: none;
+            color: #dc143c;
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+            padding: 0;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tag button:hover {
+            background: #dc143c;
+            color: #fff;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .job-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-color: #ffd700;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-badge {
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #fff;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-description {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .job-requirements {
+            margin-bottom: 1.5rem;
+        }
+
+        .job-requirements h4 {
+            color: #333;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .job-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .job-requirements li {
+            color: #666;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .job-requirements li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ff8c00;
+            font-weight: bold;
+        }
+
+        .apply-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.3);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Application Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 3000;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 95%;
+            max-width: 700px;
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            transform: translateY(60px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            margin: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 38px;
+            height: 38px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .modal-content h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .modal-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 0.9rem;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .file-input-label:hover {
+            border-color: #ff8c00;
+            background: rgba(255, 140, 0, 0.05);
+        }
+
+        .file-name {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 140, 0, 0.45);
+        }
+
+        /* Success Modal */
+        .success-content {
+            text-align: center;
+            padding: 3rem 2.5rem;
+        }
+
+        .success-content h2 {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-content p {
+            color: #555;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Loading Indicator */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Google Translate Widget Override */
+        #google_translate_element {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .top-bar-left span {
+                display: none;
+            }
+
+            .mobile-top-section {
+                display: block;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .filter-search-wrapper {
+                grid-column: 1 / -1;
+            }
+
+            .clear-filters-btn {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 0.5rem 3%;
+                font-size: 0.75rem;
+            }
+
+            .top-bar-left,
+            .top-bar-right {
+                gap: 0.8rem;
+            }
+
+            .top-bar-left a span {
+                display: none;
+            }
+
+            .signup-btn {
+                padding: 0.4rem 0.9rem;
+                font-size: 0.75rem;
+            }
+
+            .language-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .topnav {
+                padding: 0 3%;
+                height: 70px;
+                top: 36px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .main-content {
+                margin-top: 106px;
+            }
+
+            .career-hero {
+                height: 50vh;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-search-wrapper,
+            .clear-filters-btn {
+                grid-column: 1;
+            }
+
+            .filter-select {
+                padding: 0.8rem 2.5rem 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .mobile-menu {
+                top: 106px;
+                height: calc(100vh - 106px);
+            }
+
+            .filter-search {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 0.4rem 2%;
+            }
+
+            .top-bar-right {
+                gap: 0.5rem;
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div class="loading" id="loadingIndicator">Translating...</div>
+
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="/media">
+                <!-- <span>Media</span> -->
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageDropdown()">
+                    <span>🌐</span>
+                    <span id="currentLang">English</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="language-dropdown" id="languageDropdown">
+                    <a href="#" onclick="translatePage('en', 'English')" class="active">English</a>
+                    <a href="#" onclick="translatePage('es', 'Español')">Español</a>
+                    <a href="#" onclick="translatePage('fr', 'Français')">Français</a>
+                    <a href="#" onclick="translatePage('de', 'Deutsch')">Deutsch</a>
+                    <a href="#" onclick="translatePage('zh-CN', '中文')">中文 (Chinese)</a>
+                    <a href="#" onclick="translatePage('ar', 'العربية')">العربية (Arabic)</a>
+                    <a href="#" onclick="translatePage('pt', 'Português')">Português</a>
+                    <a href="#" onclick="translatePage('ru', 'Русский')">Русский (Russian)</a>
+                    <a href="#" onclick="translatePage('ja', '日本語')">日本語 (Japanese)</a>
+                    <a href="#" onclick="translatePage('ko', '한국어')">한국어 (Korean)</a>
+                    <a href="#" onclick="translatePage('it', 'Italiano')">Italiano</a>
+                    <a href="#" onclick="translatePage('hi', 'हिन्दी')">हिन्दी (Hindi)</a>
+                    <a href="#" onclick="translatePage('tr', 'Türkçe')">Türkçe (Turkish)</a>
+                    <a href="#" onclick="translatePage('pl', 'Polski')">Polski (Polish)</a>
+                    <a href="#" onclick="translatePage('nl', 'Nederlands')">Nederlands (Dutch)</a>
+                </div>
+            </div>
+            <a href="/onboard" class="signup-btn">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="topnav">
+        <div class="logo">
+            <img src="/media/logo.png" alt="" style="height: 40px; vertical-align: middle;">
+        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li>
+                <a href="#about">About Us<span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/about-us">Who we are</a></li>
+                    <li>
+                        <a href="#mission" style="display: flex; justify-content: space-between; align-items: center;">
+                            What we do
+                            <span style="font-size: 0.7rem;">▶</span>
+                        </a>
+                        <ul class="dropdown-menu" style="left: 100%; top: 0; margin-top: 0; margin-left: 0.5rem;">
+                            <li><a href="/service">Manpower Supply</a></li>
+                            <li><a href="#contracting">Contracting & Services</a></li>
+                            <li><a href="#logistics">Procurement & Logistics</a></li>
+                            <li><a href="#finance">Finance</a></li>
+                            <li><a href="#realestate">Real Estate & Hospitality</a></li>
+                            <li><a href="#agriculture">Agriculture</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/our-team">Leadership Team</a></li>
+                    <li><a href="/contact-us">Contact Us</a></li>
+                </ul>
+            </li>
+            <!-- <li>
+                <a href="#services">Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/service">Manpower Supply</a></li>
+                    <li><a href="#contracting">Contracting & Services</a></li>
+                    <li><a href="#logistics">Procurement & Logistics</a></li>
+                    <li><a href="#finance">Finance</a></li>
+                    <li><a href="#realestate">Real Estate & Hospitality</a></li>
+                    <li><a href="#agriculture">Agriculture</a></li>
+                </ul>
+            </li> -->
+            <li>
+                <a href="/service-services">Manpower Services <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#offshore">Offshore Personnel</a></li>
+                    <li><a href="#onshore">Onshore Personnel</a></li>
+                    <li><a href="#technical">Technical Staff</a></li>
+                </ul>
+            </li>
+            <li><a href="/projects">Projects</a></li>
+            <li>
+                <a href="#csr">CSR <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#community">Community Development</a></li>
+                    <li><a href="#education">Education Initiatives</a></li>
+                    <li><a href="#environment">Environmental Programs</a></li>
+                </ul>
+            </li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/media">Media</a></li>
+        </ul>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <!-- Mobile Top Section -->
+        <div class="mobile-top-section">
+            <h3>Quick Access</h3>
+            <div class="mobile-actions">
+                <a href="/media" class="mobile-action-btn">
+                    <span>📰</span>
+                    <span>Media</span>
+                </a>
+                <div class="mobile-language-selector">
+                    <button class="mobile-action-btn" onclick="toggleMobileLanguage()">
+                        <span>🌐</span>
+                        <span id="mobileLang">Language: English</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="mobile-language-list" id="mobileLanguageList">
+                        <a href="#" onclick="translatePage('en', 'English')">English</a>
+                        <a href="#" onclick="translatePage('es', 'Español')">Español</a>
+                        <a href="#" onclick="translatePage('fr', 'Français')">Français</a>
+                        <a href="#" onclick="translatePage('de', 'Deutsch')">Deutsch</a>
+                        <a href="#" onclick="translatePage('zh-CN', '中文')">中文 (Chinese)</a>
+                        <a href="#" onclick="translatePage('ar', 'العربية')">العربية (Arabic)</a>
+                        <a href="#" onclick="translatePage('pt', 'Português')">Português</a>
+                        <a href="#" onclick="translatePage('ru', 'Русский')">Русский (Russian)</a>
+                        <a href="#" onclick="translatePage('ja', '日本語')">日本語 (Japanese)</a>
+                        <a href="#" onclick="translatePage('ko', '한국어')">한국어 (Korean)</a>
+                        <a href="#" onclick="translatePage('it', 'Italiano')">Italiano</a>
+                        <a href="#" onclick="translatePage('hi', 'हिन्दी')">हिन्दी (Hindi)</a>
+                        <a href="#" onclick="translatePage('tr', 'Türkçe')">Türkçe (Turkish)</a>
+                        <a href="#" onclick="translatePage('pl', 'Polski')">Polski (Polish)</a>
+                        <a href="#" onclick="translatePage('nl', 'Nederlands')">Nederlands (Dutch)</a>
+                    </div>
+                </div>
+                <a href="/onboard" class="mobile-action-btn">
+                    <span>✍️</span>
+                    <span>Sign Up</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Regular Menu Items -->
+        <div class="mobile-menu-item">
+            <a href="#home" class="mobile-menu-link">Home</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="javascript:void(0)" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'about-dropdown')">
+                About Us <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="about-dropdown">
+                <a href="/about-us">Who we are</a>
+                <a href="javascript:void(0)" onclick="toggleMobileDropdown(event, 'whatwedo-dropdown')">What we do ▶</a>
+                <div class="mobile-dropdown" id="whatwedo-dropdown" style="padding-left: 1rem;">
+                    <a href="/service">Manpower Supply</a>
+                    <a href="#contracting">Contracting & Services</a>
+                    <a href="#logistics">Procurement & Logistics</a>
+                    <a href="#finance">Finance</a>
+                    <a href="#realestate">Real Estate & Hospitality</a>
+                    <a href="#agriculture">Agriculture</a>
+                </div>
+                <a href="#responsibility">Responsibility</a>
+                <a href="#core-values">Core Values</a>
+                <a href="/our-team">Leadership Team</a>
+            </div>
+        </div>
+        <!-- <div class="mobile-menu-item">
+            <a href="#services" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'services-dropdown')">
+                Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="services-dropdown">
+                <a href="/service">Manpower Supply</a>
+                <a href="#contracting">Contracting & Services</a>
+                <a href="#logistics">Procurement & Logistics</a>
+                <a href="#finance">Finance</a>
+                <a href="#realestate">Real Estate & Hospitality</a>
+                <a href="#agriculture">Agriculture</a>
+            </div>
+        </div> -->
+        <div class="mobile-menu-item">
+            <a href="/service-services" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'manpower-dropdown')">
+                Manpower Services <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="manpower-dropdown">
+                <a href="#offshore">Offshore Personnel</a>
+                <a href="#onshore">Onshore Personnel</a>
+                <a href="#technical">Technical Staff</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="/projects" class="mobile-menu-link">Projects</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#csr" class="mobile-menu-link" onclick="toggleMobileDropdown(event, 'csr-dropdown')">
+                CSR <span class="dropdown-arrow">▼</span>
+            </a>
+            <div class="mobile-dropdown" id="csr-dropdown">
+                <a href="#community">Community Development</a>
+                <a href="#education">Education Initiatives</a>
+                <a href="#environment">Environmental Programs</a>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="/careers" class="mobile-menu-link">Careers</a>
+        </div>
+        <div class="mobile-menu-item">
+            <a href="#contact" class="mobile-menu-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section class="career-hero">
+            <div class="career-hero-content">
+                <h1>Build Your Future With Us</h1>
+                <p>Join a team that's shaping the future across Contracting, Logistics, Real Estate, and Agriculture. Discover opportunities to grow, innovate, and make an impact.</p>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits animate-on-scroll">
+            <h2 class="section-title">Why Work With Us</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Competitive Salary</h3>
+                    <p>Industry-leading compensation packages with performance bonuses and annual reviews.</p>
+                </div>
+
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Career Growth</h3>
+                    <p>Clear career progression paths with mentorship programs and leadership development.</p>
+                </div>
+
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">🏥</div>
+                    <h3>Health Benefits</h3>
+                    <p>Comprehensive health insurance covering you and your family, including dental and vision.</p>
+                </div>
+
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">🌴</div>
+                    <h3>Work-Life Balance</h3>
+                    <p>Flexible working hours, remote options, and generous paid time off.</p>
+                </div>
+
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">🎓</div>
+                    <h3>Learning & Development</h3>
+                    <p>Access to training programs, workshops, and professional certifications.</p>
+                </div>
+
+                <div class="benefit-card animate-scale">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>Global Opportunities</h3>
+                    <p>Work on international projects and collaborate with teams across the globe.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Jobs Section -->
+        <section class="jobs-section animate-on-scroll" id="careers">
+            <h2 class="section-title">Open Positions</h2>
+            
+            <!-- Enhanced Filter Controls -->
+            <div class="filter-controls">
+                <!-- Active Filters Display -->
+                <div class="active-filters" id="activeFilters"></div>
+
+                <!-- Filter Row -->
+                <div class="filter-row">
+                    <!-- Search Bar -->
+                    <div class="filter-search-wrapper">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search by job title, keyword, or description...">
+                    </div>
+
+                    <!-- Department Dropdown -->
+                    <div class="filter-dropdown-wrapper">
+                        <select class="filter-select" id="departmentFilter">
+                            <option value="all">All Departments</option>
+                            <option value="Contracting">Contracting</option>
+                            <option value="Logistics">Logistics</option>
+                            <option value="Real Estate">Real Estate</option>
+                            <option value="Agriculture">Agriculture</option>
+                        </select>
+                        <span class="select-arrow">▼</span>
+                    </div>
+
+                    <!-- Location Dropdown -->
+                    <div class="filter-dropdown-wrapper">
+                        <select class="filter-select" id="locationFilter">
+                            <option value="all">All Locations</option>
+                            <option value="Nigeria">Nigeria</option>
+                            <option value="Ghana">Ghana</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="UAE">UAE</option>
+                            <option value="UK">UK</option>
+                            <option value="USA">USA</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                        <span class="select-arrow">▼</span>
+                    </div>
+
+                    <!-- Job Type Dropdown -->
+                    <div class="filter-dropdown-wrapper">
+                        <select class="filter-select" id="typeFilter">
+                            <option value="all">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                        <span class="select-arrow">▼</span>
+                    </div>
+
+                    <!-- Clear Filters Button -->
+                    <button class="clear-filters-btn" onclick="clearAllFilters()">
+                        <span>✕</span>
+                        <span>Clear</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Jobs Grid -->
+            <div class="jobs-grid" id="jobsGrid">
+                <!-- Jobs will be rendered here by JavaScript -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Application Modal -->
+    <div id="applicationModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeApplicationModal()">×</button>
+
+            <h2 id="modalJobTitle">Apply for Position</h2>
+            <p class="modal-subtitle">Fill out the form below to submit your application.</p>
+
+            <form onsubmit="handleApplicationSubmit(event)" id="applicationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="firstName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Current Location *</label>
+                    <input type="text" name="location" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Years of Experience *</label>
+                        <select name="experience" required>
+                            <option value="">Select experience</option>
+                            <option>0-2 years</option>
+                            <option>3-5 years</option>
+                            <option>6-10 years</option>
+                            <option>10+ years</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Expected Salary (USD) *</label>
+                        <input type="number" name="salary" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>LinkedIn Profile (Optional)</label>
+                    <input type="url" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+
+                <div class="form-group">
+                    <label>Portfolio/Website (Optional)</label>
+                    <input type="url" name="portfolio" placeholder="https://yourportfolio.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Resume/CV (PDF) *</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="resumeInput" name="resume" accept=".pdf" required onchange="updateFileName('resumeInput', 'resumeName')">
+                        <label for="resumeInput" class="file-input-label">
+                            📄 Click to upload resume (PDF only, max 5MB)
+                        </label>
+                        <span class="file-name" id="resumeName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Cover Letter (PDF) *</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="coverLetterInput" name="coverLetter" accept=".pdf" required onchange="updateFileName('coverLetterInput', 'coverLetterName')">
+                        <label for="coverLetterInput" class="file-input-label">
+                            📄 Click to upload cover letter (PDF only, max 5MB)
+                        </label>
+                        <span class="file-name" id="coverLetterName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Additional Documents (Optional)</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="additionalDocsInput" name="additionalDocs" accept=".pdf" multiple onchange="updateFileName('additionalDocsInput', 'additionalDocsName')">
+                        <label for="additionalDocsInput" class="file-input-label">
+                            📎 Upload certifications, references, etc. (PDF)
+                        </label>
+                        <span class="file-name" id="additionalDocsName"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Why do you want to work with us? *</label>
+                    <textarea name="motivation" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-content success-content">
+            <h2>🎉 Application Submitted!</h2>
+            <p>
+                Thank you for applying to SMEN International.<br>
+                Our HR team will review your application and contact you within
+                <strong>5-7 business days</strong>.
+            </p>
+            <button class="submit-btn" onclick="closeSuccessModal()">Done</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="animate-on-scroll">
+        <p>&copy; 2026 SMEN International Company Limited. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Building the future, one sector at a time.</p>
+    </footer>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,es,fr,de,zh-CN,ar,pt,ru,ja,ko,it,hi,tr,pl,nl',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <script>
+        // Job Data
+        const jobs = [
+            {
+                id: 1,
+                title: "Senior Project Manager",
+                department: "Contracting",
+                location: "Lagos, Nigeria",
+                country: "Nigeria",
+                type: "Full-time",
+                experience: "5+ years",
+                description: "Lead major construction projects from inception to completion, managing teams, budgets, and timelines.",
+                requirements: [
+                    "Bachelor's degree in Civil Engineering or related field",
+                    "Minimum 5 years of project management experience",
+                    "PMP certification preferred",
+                    "Strong leadership and communication skills"
+                ]
+            },
+            {
+                id: 2,
+                title: "Logistics Coordinator",
+                department: "Logistics",
+                location: "Dubai, UAE",
+                country: "UAE",
+                type: "Full-time",
+                experience: "3+ years",
+                description: "Coordinate international shipments, manage supply chain operations, and optimize logistics processes.",
+                requirements: [
+                    "Bachelor's degree in Supply Chain Management or related field",
+                    "3+ years experience in logistics coordination",
+                    "Knowledge of international shipping regulations",
+                    "Proficiency in logistics management software"
+                ]
+            },
+            {
+                id: 3,
+                title: "Real Estate Sales Manager",
+                department: "Real Estate",
+                location: "London, UK",
+                country: "UK",
+                type: "Full-time",
+                experience: "4+ years",
+                description: "Drive sales of luxury residential and commercial properties, develop client relationships, and achieve revenue targets.",
+                requirements: [
+                    "Bachelor's degree in Business, Marketing, or related field",
+                    "Minimum 4 years in real estate sales",
+                    "Valid real estate license",
+                    "Proven track record of meeting sales targets"
+                ]
+            },
+            {
+                id: 4,
+                title: "Agricultural Specialist",
+                department: "Agriculture",
+                location: "Nairobi, Kenya",
+                country: "Kenya",
+                type: "Full-time",
+                experience: "3+ years",
+                description: "Implement sustainable farming practices, advise on crop management, and support agricultural development projects.",
+                requirements: [
+                    "Degree in Agriculture, Agronomy, or related field",
+                    "3+ years experience in agricultural management",
+                    "Knowledge of sustainable farming techniques",
+                    "Strong analytical and problem-solving skills"
+                ]
+            },
+            {
+                id: 5,
+                title: "Civil Engineer",
+                department: "Contracting",
+                location: "Accra, Ghana",
+                country: "Ghana",
+                type: "Full-time",
+                experience: "2+ years",
+                description: "Design and oversee infrastructure projects, conduct site inspections, and ensure compliance with building codes.",
+                requirements: [
+                    "Bachelor's degree in Civil Engineering",
+                    "2+ years of engineering experience",
+                    "Proficiency in AutoCAD and engineering software",
+                    "Strong technical and analytical skills"
+                ]
+            },
+            {
+                id: 6,
+                title: "Supply Chain Analyst",
+                department: "Logistics",
+                location: "Singapore",
+                country: "Singapore",
+                type: "Full-time",
+                experience: "2+ years",
+                description: "Analyze supply chain data, identify optimization opportunities, and improve operational efficiency.",
+                requirements: [
+                    "Bachelor's degree in Business, Analytics, or related field",
+                    "2+ years experience in supply chain analysis",
+                    "Strong Excel and data analysis skills",
+                    "Experience with ERP systems"
+                ]
+            },
+            {
+                id: 7,
+                title: "Property Manager",
+                department: "Real Estate",
+                location: "New York, USA",
+                country: "USA",
+                type: "Full-time",
+                experience: "3+ years",
+                description: "Manage commercial and residential properties, oversee maintenance, and ensure tenant satisfaction.",
+                requirements: [
+                    "Bachelor's degree in Property Management or related field",
+                    "3+ years property management experience",
+                    "Strong organizational and communication skills",
+                    "Knowledge of property laws and regulations"
+                ]
+            },
+            {
+                id: 8,
+                title: "Farm Operations Manager",
+                department: "Agriculture",
+                location: "Brisbane, Australia",
+                country: "Australia",
+                type: "Full-time",
+                experience: "5+ years",
+                description: "Oversee daily farm operations, manage staff, and implement agricultural best practices.",
+                requirements: [
+                    "Degree in Agriculture or related field",
+                    "5+ years farm management experience",
+                    "Leadership and team management skills",
+                    "Knowledge of modern farming technologies"
+                ]
+            },
+            {
+                id: 9,
+                title: "Construction Supervisor",
+                department: "Contracting",
+                location: "Port Harcourt, Nigeria",
+                country: "Nigeria",
+                type: "Contract",
+                experience: "4+ years",
+                description: "Supervise construction sites, coordinate with contractors, and ensure quality standards are met.",
+                requirements: [
+                    "Relevant construction management certification",
+                    "4+ years of site supervision experience",
+                    "Knowledge of safety regulations",
+                    "Excellent problem-solving abilities"
+                ]
+            },
+            {
+                id: 10,
+                title: "Remote Logistics Consultant",
+                department: "Logistics",
+                location: "Remote",
+                country: "Remote",
+                type: "Remote",
+                experience: "3+ years",
+                description: "Provide logistics consulting services remotely, optimize supply chain strategies for clients worldwide.",
+                requirements: [
+                    "Bachelor's degree in Logistics or related field",
+                    "3+ years consulting experience",
+                    "Excellent communication skills",
+                    "Self-motivated and organized"
+                ]
+            }
+        ];
+
+        // Filter State
+        let currentFilters = {
+            department: 'all',
+            location: 'all',
+            type: 'all',
+            search: ''
+        };
+
+        let selectedJob = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderJobs();
+            setupFilterListeners();
+            setupSearchListener();
+            
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-slide-left, .animate-slide-right, .animate-scale');
+            animatedElements.forEach(el => observer.observe(el));
+        });
+
+        // Setup Filter Listeners
+        function setupFilterListeners() {
+            // Department filter
+            document.getElementById('departmentFilter').addEventListener('change', function() {
+                currentFilters.department = this.value;
+                updateActiveFilters();
+                renderJobs();
+            });
+
+            // Location filter
+            document.getElementById('locationFilter').addEventListener('change', function() {
+                currentFilters.location = this.value;
+                updateActiveFilters();
+                renderJobs();
+            });
+
+            // Type filter
+            document.getElementById('typeFilter').addEventListener('change', function() {
+                currentFilters.type = this.value;
+                updateActiveFilters();
+                renderJobs();
+            });
+        }
+
+        // Setup Search Listener
+        function setupSearchListener() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.toLowerCase();
+                updateActiveFilters();
+                renderJobs();
+            });
+        }
+
+        // Update Active Filters Display
+        function updateActiveFilters() {
+            const activeFiltersContainer = document.getElementById('activeFilters');
+            const tags = [];
+
+            // Department tag
+            if (currentFilters.department !== 'all') {
+                tags.push({
+                    label: `Department: ${currentFilters.department}`,
+                    filter: 'department'
+                });
+            }
+
+            // Location tag
+            if (currentFilters.location !== 'all') {
+                tags.push({
+                    label: `Location: ${currentFilters.location}`,
+                    filter: 'location'
+                });
+            }
+
+            // Type tag
+            if (currentFilters.type !== 'all') {
+                tags.push({
+                    label: `Type: ${currentFilters.type}`,
+                    filter: 'type'
+                });
+            }
+
+            // Search tag
+            if (currentFilters.search) {
+                tags.push({
+                    label: `Search: "${currentFilters.search}"`,
+                    filter: 'search'
+                });
+            }
+
+            if (tags.length === 0) {
+                activeFiltersContainer.innerHTML = '';
+                activeFiltersContainer.style.display = 'none';
+                return;
+            }
+
+            activeFiltersContainer.style.display = 'flex';
+            activeFiltersContainer.innerHTML = tags.map(tag => `
+                <div class="filter-tag">
+                    <span>${tag.label}</span>
+                    <button onclick="removeFilter('${tag.filter}')">×</button>
+                </div>
+            `).join('');
+        }
+
+        // Remove Individual Filter
+        function removeFilter(filterType) {
+            if (filterType === 'department') {
+                currentFilters.department = 'all';
+                document.getElementById('departmentFilter').value = 'all';
+            } else if (filterType === 'location') {
+                currentFilters.location = 'all';
+                document.getElementById('locationFilter').value = 'all';
+            } else if (filterType === 'type') {
+                currentFilters.type = 'all';
+                document.getElementById('typeFilter').value = 'all';
+            } else if (filterType === 'search') {
+                currentFilters.search = '';
+                document.getElementById('searchInput').value = '';
+            }
+
+            updateActiveFilters();
+            renderJobs();
+        }
+
+        // Clear All Filters
+        function clearAllFilters() {
+            currentFilters = {
+                department: 'all',
+                location: 'all',
+                type: 'all',
+                search: ''
+            };
+
+            // Reset all dropdowns
+            document.getElementById('departmentFilter').value = 'all';
+            document.getElementById('locationFilter').value = 'all';
+            document.getElementById('typeFilter').value = 'all';
+            document.getElementById('searchInput').value = '';
+
+            updateActiveFilters();
+            renderJobs();
+        }
+
+        // Filter Jobs
+        function filterJobs() {
+            return jobs.filter(job => {
+                // Department filter
+                if (currentFilters.department !== 'all' && job.department !== currentFilters.department) {
+                    return false;
+                }
+
+                // Location filter
+                if (currentFilters.location !== 'all') {
+                    if (currentFilters.location === 'Remote') {
+                        if (!job.location.includes('Remote')) return false;
+                    } else {
+                        if (!job.country.includes(currentFilters.location)) return false;
+                    }
+                }
+
+                // Type filter
+                if (currentFilters.type !== 'all' && job.type !== currentFilters.type) {
+                    return false;
+                }
+
+                // Search filter
+                if (currentFilters.search) {
+                    const searchTerm = currentFilters.search;
+                    const searchableText = `${job.title} ${job.description} ${job.department} ${job.location}`.toLowerCase();
+                    if (!searchableText.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        // Render Jobs
+        function renderJobs() {
+            const jobsGrid = document.getElementById('jobsGrid');
+            const filteredJobs = filterJobs();
+
+            if (filteredJobs.length === 0) {
+                jobsGrid.innerHTML = `
+                    <div class="no-results">
+                        <h3>No jobs found</h3>
+                        <p>Try adjusting your filters or search terms to find more opportunities.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            jobsGrid.innerHTML = filteredJobs.map(job => `
+                <div class="job-card animate-scale" onclick="openApplicationModal(${job.id})">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                        </div>
+                        <span class="job-badge">${job.department}</span>
+                    </div>
+                    
+                    <div class="job-meta">
+                        <div class="job-meta-item">
+                            📍 ${job.location}
+                        </div>
+                        <div class="job-meta-item">
+                            💼 ${job.type}
+                        </div>
+                        <div class="job-meta-item">
+                            ⏱️ ${job.experience}
+                        </div>
+                    </div>
+                    
+                    <p class="job-description">${job.description}</p>
+                    
+                    <div class="job-requirements">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <button class="apply-btn" onclick="event.stopPropagation(); openApplicationModal(${job.id})">
+                        Apply Now
+                    </button>
+                </div>
+            `).join('');
+
+            // Re-observe animated elements after rendering
+            const animatedElements = document.querySelectorAll('.animate-scale');
+            animatedElements.forEach(el => observer.observe(el));
+        }
+
+        // Open Application Modal
+        function openApplicationModal(jobId) {
+            selectedJob = jobs.find(job => job.id === jobId);
+            if (!selectedJob) return;
+
+            const modal = document.getElementById('applicationModal');
+            const modalTitle = document.getElementById('modalJobTitle');
+            
+            modalTitle.textContent = `Apply for ${selectedJob.title}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Application Modal
+        function closeApplicationModal() {
+            const modal = document.getElementById('applicationModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('applicationForm').reset();
+            
+            // Clear file names
+            document.getElementById('resumeName').textContent = '';
+            document.getElementById('coverLetterName').textContent = '';
+            document.getElementById('additionalDocsName').textContent = '';
+        }
+
+        // Open Success Modal
+        function openSuccessModal() {
+            const successModal = document.getElementById('successModal');
+            successModal.classList.add('active');
+        }
+
+        // Close Success Modal
+        function closeSuccessModal() {
+            const successModal = document.getElementById('successModal');
+            successModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Update File Name Display
+        function updateFileName(inputId, displayId) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById(displayId);
+            
+            if (input.files.length > 0) {
+                if (input.files.length === 1) {
+                    display.textContent = `✓ ${input.files[0].name}`;
+                } else {
+                    display.textContent = `✓ ${input.files.length} files selected`;
+                }
+                display.style.color = '#28a745';
+            } else {
+                display.textContent = '';
+            }
+        }
+
+        // Handle Application Submit
+        function handleApplicationSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Convert to readable object
+            const data = {
+                job: selectedJob ? selectedJob.title : 'Unknown',
+                department: selectedJob ? selectedJob.department : 'Unknown'
+            };
+            
+            formData.forEach((value, key) => {
+                if (value instanceof File) {
+                    data[key] = value.name;
+                } else {
+                    data[key] = value;
+                }
+            });
+            
+            console.log('Application Submitted:', data);
+            
+            // Close application modal and show success
+            closeApplicationModal();
+            openSuccessModal();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            mobileMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Mobile Dropdown Toggle
+        function toggleMobileDropdown(event, dropdownId) {
+            event.preventDefault();
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+        }
+
+        // Language Dropdown Toggle
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Mobile Language Toggle
+        function toggleMobileLanguage() {
+            const list = document.getElementById('mobileLanguageList');
+            list.classList.toggle('active');
+        }
+
+        // Translation Function using Google Translate
+        function translatePage(langCode, langName) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.classList.add('active');
+
+            // Update language display
+            document.getElementById('currentLang').textContent = langName;
+            document.getElementById('mobileLang').textContent = 'Language: ' + langName;
+
+            // Update active state
+            document.querySelectorAll('.language-dropdown a, .mobile-language-list a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Close dropdowns
+            document.getElementById('languageDropdown').classList.remove('active');
+            document.getElementById('mobileLanguageList').classList.remove('active');
+
+            // Trigger Google Translate
+            setTimeout(() => {
+                const selectElement = document.querySelector('.goog-te-combo');
+                if (selectElement) {
+                    selectElement.value = langCode;
+                    selectElement.dispatchEvent(new Event('change'));
+                    
+                    // Hide loading after translation
+                    setTimeout(() => {
+                        loadingIndicator.classList.remove('active');
+                    }, 1500);
+                } else {
+                    loadingIndicator.classList.remove('active');
+                    console.log('Google Translate not ready yet');
+                }
+            }, 300);
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const hasDropdownOnclick = this.hasAttribute('onclick') && 
+                    (this.getAttribute('onclick').includes('toggleMobileDropdown') || 
+                     this.getAttribute('onclick').includes('translatePage'));
+                
+                const isDropdownLink = this.classList.contains('mobile-menu-link') && 
+                    this.querySelector('.dropdown-arrow');
+                
+                if (!hasDropdownOnclick && !isDropdownLink) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !this.hasAttribute('onclick')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animated');
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+            const languageSelector = document.querySelector('.language-selector');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            if (languageSelector && !languageSelector.contains(e.target)) {
+                languageDropdown.classList.remove('active');
+            }
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
